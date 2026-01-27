@@ -23,6 +23,7 @@
         .feature-card { background-color: #1a1a1a; border: 1px solid #333; transition: 0.3s; padding: 25px; border-radius: 15px; }
         .feature-card:hover { border-color: #ff0000; transform: translateY(-10px); background-color: #1f1f1f; }
         .community-section { background-color: #111; padding: 80px 0; }
+        .hall-of-fame { background-color: #0b0b0b; padding: 80px 0; }
         .footer { padding: 40px 0; background-color: #000; border-top: 1px solid #333; }
         .neon-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
         .hardware-accent { color: #00ccff; text-shadow: 0 0 10px #00ccff; }
@@ -44,7 +45,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#specs">Specs</a></li>
-                <li class="nav-item"><a class="nav-link" href="#hardware">Hardware</a></li>
+                <li class="nav-item"><a class="nav-link" href="#community">Community</a></li>
                 <li class="nav-item"><a class="nav-link text-warning" href="#halloffame">Hall of Fame</a></li>
             </ul>
         </div>
@@ -79,26 +80,16 @@
     </div>
 </section>
 
-<section class="community-section" id="hardware">
+<section class="community-section" id="community">
     <div class="container text-center">
-        <h2 class="fw-bold mb-5">Hardware <span class="hardware-accent">Heritage</span></h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="feature-card h-100">
-                    <h4 class="neon-text">Broadwell Tuned</h4>
-                    <p>Optimized for Intel Core i5/i7 architectures used in the Latitude series.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card h-100">
-                    <h4 class="neon-text">KDE Fluidity</h4>
-                    <p>Visual effects tuned for Intel HD 5500 Graphics.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card h-100">
-                    <h4 class="neon-text">Zero Setup</h4>
-                    <p>From boot to code in seconds. Everything you need is already here.</p>
+        <h2 class="fw-bold mb-4">Community <span class="neon-text">Realms</span></h2>
+        <p class="mb-5">Modified the look? Added new dev tools? Submit your ISO link to get a chance to be featured in the Hall of Fame.</p>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <h4>Submit Your Version</h4>
+                    <p>Send your build details and SourceForge/Drive link to our team.</p>
+                    <a href="mailto:realmos.official@outlook.com?subject=Community%20Edition%20Submission" class="btn-realm">SUBMIT ISO</a>
                 </div>
             </div>
         </div>
@@ -113,11 +104,21 @@
                 <div class="feature-card gold-border text-center">
                     <h5 class="text-warning">FOUNDER & LEAD DEVELOPER</h5>
                     <h3>Syed Ahmed Hasnain</h3>
-                    <p class="text-muted">Building the RealmOS Universe since age 7.</p>
+                    <p class="text-muted">Innovating the RealmOS Universe at age 11.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<footer
+<footer class="footer text-center">
+    <div class="container">
+        <p>Built with Passion on a Dell E7450 in India 🇮🇳</p>
+        <p class="text-muted">Contact: <a href="mailto:realmos.official@outlook.com" class="text-danger text-decoration-none">realmos.official@outlook.com</a></p>
+        <p class="mt-3">&copy; 2026 Syed Ahmed Hasnain | Founder, RealmOS Project</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
