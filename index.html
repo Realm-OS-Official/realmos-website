@@ -14,8 +14,10 @@
         .feature-card { background-color: #1a1a1a; border: 1px solid #333; transition: 0.3s; padding: 25px; border-radius: 15px; }
         .feature-card:hover { border-color: #ff0000; transform: translateY(-10px); }
         .community-section { background-color: #111; padding: 80px 0; }
+        .hall-of-fame { background-color: #0b0b0b; padding: 80px 0; }
         .footer { padding: 40px 0; background-color: #000; border-top: 1px solid #333; }
         .neon-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+        .gold-border { border: 2px solid #ffd700 !important; box-shadow: 0 0 15px #ffd700; }
     </style>
 </head>
 <body>
@@ -34,6 +36,7 @@
                 <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                 <li class="nav-item"><a class="nav-link" href="#community">Community</a></li>
+                <li class="nav-item"><a class="nav-link text-warning" href="#halloffame">Hall of Fame</a></li>
             </ul>
         </div>
     </div>
@@ -53,7 +56,7 @@
         <div class="col-md-4">
             <div class="feature-card h-100">
                 <h3 class="neon-text">Dev Ready</h3>
-                <p>VS Code, Git, and Brave pre-installed. Zero setup required.</p>
+                <p>VS Code, Git, and Brave Browser pre-installed. Zero setup required.</p>
             </div>
         </div>
         <div class="col-md-4">
@@ -79,8 +82,40 @@
             <div class="col-md-6">
                 <div class="feature-card">
                     <h4>Submit Your Spin</h4>
-                    <p>Modified the look? Added new dev tools? Upload your ISO to Mega/Drive/SourceForge and send us the link.</p>
+                    <p>Modified the look? Added new dev tools? Send us your ISO link.</p>
                     <a href="mailto:realmos.official@outlook.com?subject=Community%20Edition%20Submission" class="btn-realm">SUBMIT VERSION</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="hall-of-fame" id="halloffame">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5"><span class="text-warning">🏛️ Hall of Fame</span></h2>
+        <p class="text-center mb-5">Celebrating the creators who have helped expand the Realm OS Universe.</p>
+        <div class="row g-4">
+            <!-- Template for a winner -->
+            <div class="col-md-4">
+                <div class="feature-card gold-border text-center">
+                    <h5 class="text-warning">FOUNDER</h5>
+                    <h3>Syed Ahmed Hasnain</h3>
+                    <p class="text-muted">Version: 1.1 "Universe"</p>
+                </div>
+            </div>
+            <!-- Placeholder for future winners -->
+            <div class="col-md-4">
+                <div class="feature-card text-center" style="border-style: dashed;">
+                    <h5 class="text-muted">FUTURE WINNER</h5>
+                    <h3>Your Name Here</h3>
+                    <p class="text-muted">Will you name the next update?</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center" style="border-style: dashed;">
+                    <h5 class="text-muted">FUTURE WINNER</h5>
+                    <h3>Your Name Here</h3>
+                    <p class="text-muted">Submit your spin to enter.</p>
                 </div>
             </div>
         </div>
