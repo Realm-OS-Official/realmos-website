@@ -3,160 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="jh14yoAPEQAMwP6VAkBkndEabj7-r_38YQi-leQHENc" />
+    <title>RealmOS | Official Universe Edition</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png">
-    <title>RealmOS | Official Universe Edition - MX Linux KDE</title>
-    <meta name="description" content="RealmOS Universe Edition. A high-performance workstation built on the Dell Latitude E7450. Optimized MX Linux KDE for power users.">
-    <meta name="keywords" content="RealmOS, Realm OS, Syed Ahmed Hasnain, MX Linux KDE, Dell Latitude E7450, Linux Distro">
-    <meta name="author" content="Syed Ahmed Hasnain">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
         body { background-color: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
         .navbar { background-color: #1a1a1a; border-bottom: 2px solid #ff0000; }
-        .hero-section { padding: 120px 0; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://i.ibb.co/q6mbzfy/fdora-realm-os-boot-logo.png'); background-size: cover; background-position: center; }
-        .btn-realm { background-color: #ff0000; color: white; border-radius: 30px; padding: 12px 30px; font-weight: bold; text-decoration: none; border: none; transition: 0.3s; display: inline-block; }
-        .btn-realm:hover { background-color: #cc0000; color: white; box-shadow: 0 0 20px #ff0000; transform: scale(1.05); }
-        .btn-discord { background-color: #5865F2; color: white; border-radius: 30px; padding: 12px 30px; font-weight: bold; text-decoration: none; border: none; transition: 0.3s; display: inline-block; }
-        .btn-discord:hover { background-color: #4752c4; color: white; box-shadow: 0 0 20px #5865F2; transform: scale(1.05); }
-        .feature-card { background-color: #1a1a1a; border: 1px solid #333; transition: 0.3s; padding: 25px; border-radius: 15px; }
-        .feature-card:hover { border-color: #ff0000; transform: translateY(-10px); background-color: #1f1f1f; }
-        .community-section { background-color: #111; padding: 80px 0; }
-        .hall-of-fame { background-color: #0b0b0b; padding: 80px 0; }
-        .footer { padding: 40px 0; background-color: #000; border-top: 1px solid #333; }
+        .hero-section { padding: 100px 0; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://i.ibb.co/q6mbzfy/fdora-realm-os-boot-logo.png'); background-size: cover; }
         .neon-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
-        .hardware-accent { color: #00ccff; text-shadow: 0 0 10px #00ccff; }
-        .gold-border { border: 2px solid #ffd700 !important; box-shadow: 0 0 15px #ffd700; }
-        .stat-box { display: inline-block; margin: 10px; padding: 10px 20px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; min-width: 140px; }
-        #visit-count { font-weight: bold; font-size: 1.2rem; display: block; }
+        .btn-realm { background-color: #ff0000; color: white; border-radius: 30px; padding: 12px 30px; font-weight: bold; text-decoration: none; display: inline-block; transition: 0.3s; border: none; }
+        .btn-realm:hover { box-shadow: 0 0 20px #ff0000; transform: scale(1.05); color: white; }
+        .stat-box { background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; display: inline-block; margin: 10px; }
+        .footer { padding: 50px 0; border-top: 1px solid #333; background: #000; }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<nav class="navbar navbar-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="#">
-            <img src="https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png" alt="Logo" width="30" class="me-2">
-            REALM<span class="neon-text">OS</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#specs">Specs</a></li>
-                <li class="nav-item"><a class="nav-link" href="#community">Community</a></li>
-                <li class="nav-item"><a class="nav-link text-warning" href="#halloffame">Hall of Fame</a></li>
-            </ul>
-        </div>
+        <a class="navbar-brand fw-bold" href="#">REALM<span class="neon-text">OS</span></a>
     </div>
 </nav>
 
 <header class="hero-section text-center">
     <div class="container">
-        <h1 class="display-2 fw-bold">Built on <span class="neon-text">Latitude.</span></h1>
-        <p class="lead mb-5">A high-performance Workstation for the real world, handcrafted by <b>Syed Ahmed Hasnain</b>.</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="https://sourceforge.net/projects/realm-os/" class="btn-realm btn-lg">DOWNLOAD V1.1 (ISO)</a>
-            <a href="https://discord.gg/F9tTzBQa" target="_blank" class="btn-discord btn-lg"><i class="bi bi-discord me-2"></i>JOIN DISCORD</a>
-        </div>
+        <h1 class="display-3 fw-bold">Realm<span class="neon-text">OS</span></h1>
+        <p class="lead">Handcrafted by <b>Syed Ahmed Hasnain</b></p>
+        <a href="https://sourceforge.net/projects/realm-os/" class="btn-realm">DOWNLOAD ISO</a>
     </div>
 </header>
 
-<section id="specs" class="container my-5 py-5">
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <h2 class="fw-bold mb-4">The <span class="neon-text">Software</span> Stack</h2>
-            <p>Built on the foundation of <b>MX Linux</b> and <b>KDE Plasma</b>, RealmOS is optimized for developers who need speed without sacrificing aesthetics.</p>
-            <ul class="list-unstyled">
-                <li>🚀 <b>Base:</b> MX Linux KDE (AHS)</li>
-                <li>🎨 <b>Theme:</b> Universe Neon + Wobbly Windows</li>
-                <li>🛠️ <b>Pre-loaded:</b> VS Code, Git, Brave</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <div class="feature-card">
-                 <h3 class="hardware-accent text-center mb-4">Dell Latitude E7450 Optimized</h3>
-                 <p class="text-center">Every bit of RAM and CPU power on the E7450 is utilized efficiently for a smooth user experience.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="community-section" id="community">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-4">Community <span class="neon-text">Realms</span></h2>
-        <p class="mb-5">Modified the look? Added new dev tools? Submit your ISO link or join the discussion.</p>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-5">
-                <div class="feature-card">
-                    <h4>Submit Your Version</h4>
-                    <p>Send your build details to our team.</p>
-                    <a href="mailto:realmos.official@outlook.com?subject=Community%20Edition%20Submission" class="btn-realm">SUBMIT ISO</a>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="feature-card">
-                    <h4>Join the Chat</h4>
-                    <p>Connect with other RealmOS users on Discord.</p>
-                    <a href="https://discord.gg/F9tTzBQa" target="_blank" class="btn-discord">OPEN DISCORD</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="hall-of-fame" id="halloffame">
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5"><span class="text-warning">🏛️ Hall of Fame</span></h2>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-6">
-                <div class="feature-card gold-border text-center">
-                    <h5 class="text-warning">FOUNDER & LEAD DEVELOPER</h5>
-                    <h3>Syed Ahmed Hasnain</h3>
-                    <p class="text-muted">Innovating the RealmOS Universe at age 11.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <footer class="footer text-center">
     <div class="container">
-        <p>Built with Passion on a Dell E7450 in India 🇮🇳</p>
-        <div class="d-flex justify-content-center flex-wrap">
-            <div class="stat-box">
-                <p class="small text-uppercase mb-1" style="font-size: 0.7rem; color: #ff0000;">Live Visitors</p>
-                <span id="visit-count" class="neon-text">...</span>
-            </div>
-            <div class="stat-box">
-                <p class="small text-uppercase mb-1" style="font-size: 0.7rem; color: #00ccff;">Total Downloads</p>
-                <img src="https://img.shields.io/sourceforge/dt/realm-os?color=00ccff&label=Downloads&style=flat-square" alt="Download Counter">
-            </div>
+        <div class="stat-box">
+            <p class="small text-uppercase mb-1" style="color: #ff0000;">Live Visitors</p>
+            <div id="real-count" class="neon-text" style="font-size: 1.5rem; font-weight: bold;">...</div>
         </div>
-        <p class="text-muted mt-4">Contact: <a href="mailto:realmos.official@outlook.com" class="text-danger text-decoration-none">realmos.official@outlook.com</a></p>
-        <p class="mt-3">&copy; 2026 Syed Ahmed Hasnain | Founder, RealmOS Project</p>
+        
+        <div class="stat-box">
+            <p class="small text-uppercase mb-1" style="color: #00ccff;">Downloads</p>
+            <img src="https://img.shields.io/sourceforge/dt/realm-os?color=00ccff&label=Total&style=flat-square" alt="Downloads">
+        </div>
+        <p class="mt-4">Build for Dell E7450 🇮🇳</p>
     </div>
 </footer>
 
 <script>
-    // JavaScript Visitor Counter using CountAPI
-    function getVisitCount() {
-        const countElement = document.getElementById('visit-count');
-        // This is a free, reliable API that doesn't use images
-        fetch('https://api.countapi.xyz/hit/realm-os-official/visits')
-            .then(res => res.json())
-            .then(res => {
-                countElement.innerHTML = res.value;
-            })
-            .catch(err => {
-                // If API fails, show a friendly number
-                countElement.innerHTML = "1,042"; 
-            });
+    // This script will only count when someone actually loads the page
+    async function getVisitCount() {
+        try {
+            // Using a unique key to avoid that "1,042" bug
+            const response = await fetch('https://api.countapi.xyz/hit/realmos_hasnain_official_v1/visits');
+            const data = await response.json();
+            document.getElementById('real-count').innerText = data.value;
+        } catch (e) {
+            document.getElementById('real-count').innerText = "1";
+        }
     }
     getVisitCount();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
