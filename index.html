@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RealmOS: The official Universe Edition. A high-performance Linux distribution handcrafted by Syed Ahmed Hasnain, optimized for Dell Latitude E7450.">
     <title>RealmOS | Official Universe Edition</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,8 +19,27 @@
         .feature-card { background-color: #1a1a1a; border: 1px solid #333; transition: 0.3s; padding: 25px; border-radius: 15px; height: 100%; }
         .feature-card:hover { border-color: #ff0000; transform: translateY(-10px); background-color: #1f1f1f; }
         .neon-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
-        .gold-border { border: 2px solid #ffd700 !important; box-shadow: 0 0 25px #ffd700; }
-        .empty-slot { border: 1px dashed #444; color: #444; padding: 20px; border-radius: 15px; margin-top: 15px; }
+        .gold-border { border: 2px solid #ffd700 !important; box-shadow: 0 0 25px rgba(255, 215, 0, 0.3); }
+        
+        /* New Animated Gold Slots */
+        .empty-slot { 
+            border: 2px dashed #444; 
+            color: #666; 
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-top: 15px; 
+            transition: 0.5s;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .empty-slot:hover {
+            border: 2px dashed #ffd700;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
         .footer { padding: 40px 0; background-color: #000; border-top: 1px solid #333; }
         .faq-question { color: #ff0000; font-weight: bold; margin-top: 15px; }
     </style>
@@ -29,7 +49,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold" href="#">
-            <img src="https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png" width="30" class="me-2" alt="Logo">
+            <img src="https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png" width="30" class="me-2" alt="RealmOS Universe Edition Logo">
             REALM<span class="neon-text">OS</span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -51,7 +71,7 @@
             <div class="text-center">
                 <a href="https://sourceforge.net/projects/realm-os/" class="btn-realm btn-lg mb-3">DOWNLOAD V1.1</a>
                 <br>
-                <img src="https://img.shields.io/sourceforge/dt/realm-os?color=ff0000&label=Total%20Downloads&style=flat-square" alt="Downloads">
+                <img src="https://img.shields.io/sourceforge/dt/realm-os?color=ff0000&label=Total%20Downloads&style=flat-square" alt="RealmOS Download Statistics from SourceForge">
             </div>
             <div>
                 <a href="https://discord.gg/F9tTzBQa" target="_blank" class="btn-discord btn-lg"><i class="bi bi-discord me-2"></i>JOIN DISCORD</a>
@@ -63,9 +83,9 @@
 <section id="specs" class="container my-5 py-5">
     <h2 class="text-center mb-5">Technical <span class="neon-text">Specifications</span></h2>
     <div class="row g-4 text-center">
-        <div class="col-md-4"><div class="feature-card"><h3 class="neon-text">Neon Style</h3><p>Universe Neon theme with custom icons.</p></div></div>
-        <div class="col-md-4"><div class="feature-card"><h3 style="color: #00ccff;">Pro Speed</h3><p>Optimized for Dell Latitude E7450.</p></div></div>
-        <div class="col-md-4"><div class="feature-card"><h3 class="text-success">Dev Ready</h3><p>VS Code & Git pre-installed.</p></div></div>
+        <div class="col-md-4"><div class="feature-card"><h3 class="neon-text">Neon Style</h3><p>Universe Neon theme with custom Sweet-Red icons.</p></div></div>
+        <div class="col-md-4"><div class="feature-card"><h3 style="color: #00ccff;">Pro Speed</h3><p>Optimized kernel and drivers for Dell Latitude E7450.</p></div></div>
+        <div class="col-md-4"><div class="feature-card"><h3 class="text-success">Dev Ready</h3><p>VS Code, Git, and Python pre-installed for creators.</p></div></div>
     </div>
 </section>
 
@@ -75,15 +95,15 @@
         <div class="row">
             <div class="col-md-6">
                 <p class="faq-question">What is the base of RealmOS?</p>
-                <p>It is built on top of high-performance Linux architecture, customized for the Universe Edition.</p>
+                <p>RealmOS Universe Edition is built on a high-performance MX Linux base (Debian-stable), ensuring rock-solid stability.</p>
                 <p class="faq-question">Is the E7450 mandatory?</p>
-                <p>While optimized for the Latitude E7450, it will run on most 64-bit systems.</p>
+                <p>While specifically tuned for the Latitude E7450, it is fully compatible with most 64-bit Intel and AMD systems.</p>
             </div>
             <div class="col-md-6">
                 <p class="faq-question">How to get in the Hall of Fame?</p>
-                <p>Submit your own "Realm" in our Discord. If selected, you claim an empty slot.</p>
+                <p>Submit your custom "Realm" ISO in our Discord. The best community modifications earn a spot.</p>
                 <p class="faq-question">Are there more updates coming?</p>
-                <p>Yes, we are currently looking for community versions to become the official V1.2.</p>
+                <p>Yes! V1.2 is currently in the engineering phase, focusing on better gaming performance.</p>
             </div>
         </div>
     </div>
@@ -92,12 +112,12 @@
 <section id="community-realms" class="container my-5 py-5">
     <div class="feature-card border-info p-5 text-center">
         <h2 class="mb-4">Community <span style="color: #00ccff;">Realms</span></h2>
-        <p class="lead mb-4">Submit your modified version of RealmOS on Discord. If it's good enough:</p>
+        <p class="lead mb-4">Modify RealmOS and lead the next generation of our Universe:</p>
         <div class="row text-start justify-content-center mb-4">
             <div class="col-md-8">
-                <p>🚀 <b>Next Update:</b> Your version becomes the official next release.</p>
-                <p>🏷️ <b>Codename:</b> You decide the official codename for the OS.</p>
-                <p>🏛️ <b>Legacy:</b> You earn a permanent spot in the Hall of Fame.</p>
+                <p>🚀 <b>Next Update:</b> Top-voted community versions become official releases.</p>
+                <p>🏷️ <b>Naming Rights:</b> Creators name the official Universe versions.</p>
+                <p>🏛️ <b>Legacy:</b> Earn your permanent spot in the Hall of Fame below.</p>
             </div>
         </div>
         <a href="https://discord.gg/F9tTzBQa" target="_blank" class="btn-discord">SUBMIT TO DISCORD</a>
@@ -112,10 +132,10 @@
             <h3>Syed Ahmed Hasnain</h3>
             <p class="text-muted">Innovating the RealmOS Universe at age 11.</p>
         </div>
-        <div class="empty-slot">🏆 HALL OF FAME SLOT #2 [EMPTY]</div>
-        <div class="empty-slot">🏆 HALL OF FAME SLOT #3 [EMPTY]</div>
-        <div class="empty-slot">🏆 HALL OF FAME SLOT #4 [EMPTY]</div>
-        <p class="mt-4 text-muted small">Win a Community Realm challenge to claim a slot.</p>
+        <div class="empty-slot">🏆 CLAIM SLOT #2 - SUBMIT ON DISCORD</div>
+        <div class="empty-slot">🏆 CLAIM SLOT #3 - SUBMIT ON DISCORD</div>
+        <div class="empty-slot">🏆 CLAIM SLOT #4 - SUBMIT ON DISCORD</div>
+        <p class="mt-4 text-muted small">The Realm is built by its citizens.</p>
     </div>
 </section>
 
