@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RealmOS | Official Universe Edition</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png">
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
     <style>
         body { background-color: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
+        /* NAVBAR RESTORED */
         .navbar { background-color: #1a1a1a; border-bottom: 2px solid #ff0000; }
         .hero-section { padding: 120px 0; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://i.ibb.co/q6mbzfy/fdora-realm-os-boot-logo.png'); background-size: cover; background-position: center; }
         .btn-realm { background-color: #ff0000; color: white; border-radius: 30px; padding: 12px 30px; font-weight: bold; text-decoration: none; border: none; transition: 0.3s; display: inline-block; }
@@ -56,24 +55,9 @@
 
 <section id="specs" class="container my-5 py-5">
     <div class="row g-4">
-        <div class="col-md-4">
-            <div class="feature-card text-center">
-                <h3 class="neon-text">Neon Style</h3>
-                <p>Universe Neon theme with Wobbly Windows.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-card text-center">
-                <h3 style="color: #00ccff;">Pro Speed</h3>
-                <p>Optimized for E7450 & 64-bit hardware.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-card text-center">
-                <h3 class="text-success">Dev Ready</h3>
-                <p>Pre-loaded with VS Code, Git, and Brave.</p>
-            </div>
-        </div>
+        <div class="col-md-4"><div class="feature-card text-center"><h3 class="neon-text">Neon Style</h3><p>Universe Neon theme</p></div></div>
+        <div class="col-md-4"><div class="feature-card text-center"><h3 style="color: #00ccff;">Pro Speed</h3><p>Optimized for E7450</p></div></div>
+        <div class="col-md-4"><div class="feature-card text-center"><h3 class="text-success">Dev Ready</h3><p>VS Code & Git</p></div></div>
     </div>
 </section>
 
@@ -82,7 +66,7 @@
     <div class="feature-card gold-border mx-auto" style="max-width: 500px;">
         <h5 class="text-warning">FOUNDER & LEAD DEVELOPER</h5>
         <h3>Syed Ahmed Hasnain</h3>
-        <p class="text-muted">Innovating the RealmOS Universe at age 11.</p>
+        <p class="text-muted">Innovating the RealmOS Universe at age 11</p>
     </div>
 </section>
 
@@ -91,7 +75,7 @@
         <div class="d-flex justify-content-center flex-wrap">
             <div class="stat-box">
                 <p class="small text-uppercase mb-1" style="color: #ff0000;">Live Visitors</p>
-                <div id="visit-count" class="neon-text" style="font-size: 1.5rem; font-weight: bold;">Loading...</div>
+                <img src="https://komarev.com/ghpvc/?username=realm-os-official&color=red&style=flat-square&label=VISITORS" alt="Visitor Counter">
             </div>
             <div class="stat-box">
                 <p class="small text-uppercase mb-1" style="color: #00ccff;">Total Downloads</p>
@@ -102,21 +86,6 @@
         <p class="text-muted small">&copy; 2026 Syed Ahmed Hasnain | RealmOS Project</p>
     </div>
 </footer>
-
-<script>
-    async function updateCounter() {
-        const countElement = document.getElementById('visit-count');
-        try {
-            // Using a fresh key to ensure the "1,042" bug stays gone
-            const response = await fetch('https://api.countapi.xyz/hit/realmos_hasnain_v3_final/visits');
-            const data = await response.json();
-            countElement.innerText = data.value.toLocaleString();
-        } catch (error) {
-            countElement.innerText = "Active"; 
-        }
-    }
-    updateCounter();
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
