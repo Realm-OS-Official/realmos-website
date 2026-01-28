@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RealmOS | Official Universe Edition</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
         body { background-color: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; scroll-behavior: smooth; }
         .navbar { background-color: #1a1a1a; border-bottom: 2px solid #ff0000; }
@@ -21,8 +23,6 @@
         .gold-border { border: 2px solid #ffd700 !important; box-shadow: 0 0 15px #ffd700; }
         .stat-box { display: inline-block; margin: 10px; padding: 10px 20px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; min-width: 140px; }
         .footer { padding: 40px 0; background-color: #000; border-top: 1px solid #333; }
-        /* Style for the live text counter */
-        #live-counter-text { font-size: 1.5rem; font-weight: bold; color: #ff0000; text-shadow: 0 0 10px #ff0000; }
     </style>
 </head>
 <body>
@@ -56,9 +56,24 @@
 
 <section id="specs" class="container my-5 py-5">
     <div class="row g-4">
-        <div class="col-md-4"><div class="feature-card text-center"><h3 class="neon-text">Neon Style</h3><p>Universe Neon theme</p></div></div>
-        <div class="col-md-4"><div class="feature-card text-center"><h3 style="color: #00ccff;">Pro Speed</h3><p>Optimized for E7450</p></div></div>
-        <div class="col-md-4"><div class="feature-card text-center"><h3 class="text-success">Dev Ready</h3><p>VS Code & Git</p></div></div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <h3 class="neon-text">Neon Style</h3>
+                <p>Universe Neon theme with Wobbly Windows.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <h3 style="color: #00ccff;">Pro Speed</h3>
+                <p>Optimized for E7450 & 64-bit hardware.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <h3 class="text-success">Dev Ready</h3>
+                <p>Pre-loaded with VS Code, Git, and Brave.</p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -67,17 +82,13 @@
     <div class="feature-card gold-border mx-auto" style="max-width: 500px;">
         <h5 class="text-warning">FOUNDER & LEAD DEVELOPER</h5>
         <h3>Syed Ahmed Hasnain</h3>
-        <p class="text-muted">Innovating the RealmOS Universe at age 11</p>
+        <p class="text-muted">Innovating the RealmOS Universe at age 11.</p>
     </div>
 </section>
 
 <footer class="footer text-center">
     <div class="container">
         <div class="d-flex justify-content-center flex-wrap">
-            <div class="stat-box">
-                <p class="small text-uppercase mb-1" style="color: #ff0000;">Live Visitors</p>
-                <div id="live-counter-text">Loading...</div>
-            </div>
             <div class="stat-box">
                 <p class="small text-uppercase mb-1" style="color: #00ccff;">Total Downloads</p>
                 <img src="https://img.shields.io/sourceforge/dt/realm-os?color=00ccff&label=Downloads&style=flat-square" alt="Downloads">
@@ -89,19 +100,16 @@
 </footer>
 
 <script>
-    // This script will talk to the SAME "Honest" key as your monitor
-    async function syncCounter() {
-        const counter = document.getElementById('live-counter-text');
+    async function silentTrack() {
         try {
-            // This both adds 1 to the count AND shows the current number
-            const response = await fetch('https://api.counterapi.dev/v1/realmos_hasnain_new/main/increment');
-            const data = await response.json();
-            counter.innerText = data.count.toLocaleString();
+            // Sends a +1 pulse to your monitor key
+            await fetch('https://api.counterapi.dev/v1/realmos_hasnain_new/main/increment');
+            console.log("Monitor updated.");
         } catch (err) {
-            counter.innerText = "Active";
+            console.log("Connection to tracker hidden.");
         }
     }
-    syncCounter();
+    silentTrack();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
