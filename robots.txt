@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://realm-os-official.github.io/realmos-website/sitemap.xml
