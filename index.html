@@ -35,10 +35,9 @@
         .hardware-accent { color: #00ccff; text-shadow: 0 0 10px #00ccff; }
         .gold-border { border: 2px solid #ffd700 !important; box-shadow: 0 0 15px #ffd700; }
         
-        /* Visitor Counter Styling */
-        .visitor-box {
+        .stat-box {
             display: inline-block;
-            margin-top: 20px;
+            margin: 10px;
             padding: 10px 20px;
             background: #1a1a1a;
             border: 1px solid #333;
@@ -144,9 +143,16 @@
     <div class="container">
         <p>Built with Passion on a Dell E7450 in India 🇮🇳</p>
         
-        <div class="visitor-box">
-            <p class="small text-uppercase mb-1" style="font-size: 0.7rem; color: #ff0000;">Live Visitors</p>
-            <img src="https://profile-counter.glitch.me/realm-os-official/count.svg" alt="Visitor Counter">
+        <div class="d-flex justify-content-center flex-wrap">
+            <div class="stat-box">
+                <p class="small text-uppercase mb-1" style="font-size: 0.7rem; color: #ff0000;">Live Visitors</p>
+                <img src="https://profile-counter.glitch.me/Realm-OS-Official/count.svg" alt="Visitor Counter">
+            </div>
+
+            <div class="stat-box">
+                <p class="small text-uppercase mb-1" style="font-size: 0.7rem; color: #00ccff;">Total Downloads</p>
+                <img src="https://img.shields.io/sourceforge/dt/realm-os?color=00ccff&label=Downloads&style=flat-square" alt="Download Counter">
+            </div>
         </div>
 
         <p class="text-muted mt-4">Contact: <a href="mailto:realmos.official@outlook.com" class="text-danger text-decoration-none">realmos.official@outlook.com</a></p>
