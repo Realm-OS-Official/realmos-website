@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta name="description" content="Download RealmOS Universe Edition: A high-performance Linux distribution engineered for developers and creators. Optimized for speed, security, and professional workflows.">
+    <meta name="description" content="Download RealmOS Universe Edition: A high-performance Linux distribution engineered for developers. Optimized for speed, security, and professional workflows.">
     <meta name="keywords" content="RealmOS, Realm OS, Download Linux ISO, Developer Linux Distro, RealmOS Universe, Linux for Devs, Custom Debian Distribution, Syed Ahmed Hasnain">
     <meta name="author" content="Syed Ahmed Hasnain">
     <meta name="robots" content="index, follow">
@@ -15,19 +15,51 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        :root { --realm-red: #ff0000; --realm-bg: #0b0b0b; --realm-card: #1a1a1a; }
+        :root { --realm-red: #ff0000; --realm-bg: #0b0b0b; --realm-card: #161616; --gold: #ffd700; }
         body { background-color: var(--realm-bg); color: white; font-family: 'Inter', 'Segoe UI', sans-serif; scroll-behavior: smooth; margin: 0; padding: 0; }
-        .navbar { background-color: var(--realm-card); border-bottom: 2px solid var(--realm-red); z-index: 1000; }
-        .hero-section { padding: 140px 0; background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://i.ibb.co/q6mbzfy/fdora-realm-os-boot-logo.png'); background-size: cover; background-position: center; min-height: 80vh; }
-        .btn-realm { background-color: var(--realm-red); color: white; border-radius: 8px; padding: 14px 35px; font-weight: bold; text-decoration: none; border: none; transition: 0.3s ease-in-out; display: inline-block; }
-        .btn-realm:hover { background-color: #cc0000; box-shadow: 0 0 25px var(--realm-red); transform: translateY(-2px); }
-        .btn-discord { background-color: #5865F2; color: white; border-radius: 8px; padding: 14px 35px; font-weight: bold; text-decoration: none; border: none; transition: 0.3s; display: inline-block; }
-        .feature-card { background-color: var(--realm-card); border: 1px solid #333; transition: 0.3s; padding: 35px; border-radius: 12px; height: 100%; }
-        .feature-card:hover { border-color: var(--realm-red); background-color: #1f1f1f; }
-        .neon-text { color: var(--realm-red); text-shadow: 0 0 12px rgba(255, 0, 0, 0.4); }
-        .gold-border { border: 2px solid #ffd700 !important; }
-        .footer { padding: 60px 0; background-color: #000; border-top: 1px solid #222; }
-        .faq-question { color: var(--realm-red); font-weight: 600; margin-top: 20px; font-size: 1.1rem; }
+        .navbar { background-color: rgba(22, 22, 22, 0.9); border-bottom: 1px solid var(--realm-red); backdrop-filter: blur(10px); z-index: 1000; }
+        .hero-section { padding: 120px 0 60px 0; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://i.ibb.co/q6mbzfy/fdora-realm-os-boot-logo.png'); background-size: cover; background-position: center; }
+        .btn-realm { background-color: var(--realm-red); color: white; border-radius: 6px; padding: 14px 35px; font-weight: 600; text-decoration: none; border: none; transition: 0.3s ease; }
+        .btn-realm:hover { background-color: #cc0000; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); transform: translateY(-2px); color: white; }
+        .btn-discord { background-color: #5865F2; color: white; border-radius: 6px; padding: 14px 35px; font-weight: 600; text-decoration: none; border: none; transition: 0.3s; }
+        
+        /* Stats Bar */
+        .stats-bar { background: #111; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 20px 0; margin-bottom: 50px; }
+        .stat-item { border-right: 1px solid #333; }
+        .stat-item:last-child { border-right: none; }
+        .stat-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-weight: bold; color: #eee; }
+
+        .feature-card { background-color: var(--realm-card); border: 1px solid #222; padding: 40px; border-radius: 12px; height: 100%; transition: 0.3s; }
+        .feature-card:hover { border-color: var(--realm-red); transform: translateY(-5px); }
+        .neon-text { color: var(--realm-red); text-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+
+        /* UPGRADED Hall of Fame */
+        .hall-of-fame-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
+        .founder-card { 
+            grid-column: 1 / -1; 
+            background: linear-gradient(145deg, #1a1a1a, #111);
+            border: 1px solid var(--gold) !important;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+            padding: 50px;
+            text-align: center;
+        }
+        .contributor-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed #333;
+            padding: 30px;
+            border-radius: 12px;
+            transition: 0.4s;
+            text-align: center;
+        }
+        .contributor-card:hover {
+            border: 1px solid var(--gold);
+            background: rgba(255, 215, 0, 0.02);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+        .gold-text { color: var(--gold); font-weight: bold; letter-spacing: 2px; }
+
+        .footer { padding: 80px 0; background-color: #050505; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
@@ -39,10 +71,9 @@
             REALM<span class="neon-text">OS</span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#specs">System Architecture</a></li>
-                <li class="nav-item"><a class="nav-link" href="#faq">Documentation</a></li>
-                <li class="nav-item"><a class="nav-link text-warning" href="#halloffame">Contributors</a></li>
+            <ul class="navbar-nav ms-auto text-uppercase small fw-bold">
+                <li class="nav-item"><a class="nav-link px-3" href="#architecture">Specs</a></li>
+                <li class="nav-item"><a class="nav-link px-3 text-warning" href="#halloffame">Contributors</a></li>
             </ul>
         </div>
     </div>
@@ -50,68 +81,77 @@
 
 <header class="hero-section text-center">
     <div class="container">
-        <h1 class="display-3 fw-bold mb-4">Linux Engineered for <span class="neon-text">Developers.</span></h1>
-        <p class="lead mb-5 text-secondary">Handcrafted for high-performance creative and technical workflows.</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <h1 class="display-2 fw-bold mb-4">The OS for <span class="neon-text">Engineers.</span></h1>
+        <p class="lead mb-5 text-secondary mx-auto" style="max-width: 700px;">A high-performance distribution engineered for technical workflows, verified for x86_64 architectures.</p>
+        <div class="d-flex justify-content-center gap-4 flex-wrap mb-5">
             <div class="text-center">
-                <a href="https://sourceforge.net/projects/realm-os/" class="btn-realm btn-lg mb-3">GET REALMOS ISO V1.1</a>
+                <a href="https://sourceforge.net/projects/realm-os/" class="btn-realm btn-lg mb-3">RELEASE V1.1 ISO</a>
                 <br>
                 <img src="https://img.shields.io/sourceforge/dt/realm-os.svg?color=ff0000&label=VERIFIED%20DOWNLOADS&style=for-the-badge" alt="Stats">
             </div>
-            <div>
-                <a href="https://discord.gg/F9tTzBQa" target="_blank" class="btn-discord btn-lg"><i class="bi bi-discord me-2"></i>DEVELOPER COMMUNITY</a>
-            </div>
+            <a href="https://discord.gg/F9tTzBQa" target="_blank" class="btn-discord btn-lg"><i class="bi bi-discord me-2"></i>DEVELOPER HUB</a>
         </div>
     </div>
 </header>
 
-<section id="specs" class="container my-5 py-5">
-    <h2 class="text-center mb-5">Technical <span class="neon-text">Capabilities</span></h2>
-    <div class="row g-4 text-center">
-        <div class="col-md-4"><div class="feature-card"><h3>Optimized Core</h3><p class="text-secondary">Universe Neon kernel tuning for maximum responsiveness and low-latency task handling.</p></div></div>
-        <div class="col-md-4"><div class="feature-card"><h3>Hardware Support</h3><p class="text-secondary">Fully compatible with 64-bit Intel/AMD systems, with specialized drivers for the Latitude series.</p></div></div>
-        <div class="col-md-4"><div class="feature-card"><h3>Dev Environment</h3><p class="text-secondary">Production-ready: VS Code, Git, and Python toolchains integrated into the core image.</p></div></div>
-    </div>
-</section>
-
-<section id="faq" class="container my-5 py-5">
-    <h2 class="text-center mb-5">Distribution <span class="neon-text">FAQ</span></h2>
-    <div class="feature-card">
+<div class="stats-bar text-center">
+    <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <p class="faq-question">What is the upstream base?</p>
-                <p class="text-secondary">RealmOS is built upon a high-performance MX Linux foundation (Debian-stable), prioritized for long-term stability.</p>
-                <p class="faq-question">Hardware Requirements?</p>
-                <p class="text-secondary">Requires a 64-bit processor. While reference-tuned on the E7450, it supports most modern PC architectures.</p>
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-label">Architecture</div>
+                <div class="stat-value">x86_64 (64-bit)</div>
             </div>
-            <div class="col-md-6">
-                <p class="faq-question">How to contribute?</p>
-                <p class="text-secondary">Submit your custom Realm modules via Discord. Verified community builds earn a place in the official repository.</p>
-                <p class="faq-question">Roadmap?</p>
-                <p class="text-secondary">V1.2 is currently in development, focusing on hardware-accelerated rendering and gaming performance.</p>
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-label">Min RAM</div>
+                <div class="stat-value">2 GB (4 GB Rec.)</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-label">Disk Space</div>
+                <div class="stat-value">20 GB Available</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <div class="stat-label">Foundation</div>
+                <div class="stat-value">MX / Debian</div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
-<section id="halloffame" class="container my-5 py-5 text-center">
-    <h2 class="mb-5"><span class="text-warning">🏛️ Hall of Fame</span></h2>
-    <div class="mx-auto" style="max-width: 600px;">
-        <div class="feature-card gold-border mb-4">
-            <h5 class="text-warning">FOUNDER & LEAD ARCHITECT</h5>
-            <h3>Syed Ahmed Hasnain</h3>
-            <p class="text-muted">Directing the RealmOS project at age 11.</p>
+<section id="halloffame" class="container my-5 py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold"><span class="gold-text">🏛️ CONTRIBUTOR PRECINCT</span></h2>
+        <p class="text-muted">Honoring those who built the RealmOS Universe.</p>
+    </div>
+    
+    <div class="hall-of-fame-grid">
+        <div class="founder-card feature-card">
+            <p class="gold-text mb-2 small">PROJECT FOUNDER & LEAD ARCHITECT</p>
+            <h2 class="display-5 fw-bold text-white mb-3">Syed Ahmed Hasnain</h2>
+            <p class="text-secondary mb-0">Established the RealmOS Foundation at age 11. Leading development of the Universe Edition.</p>
         </div>
-        <div class="empty-slot">🏆 SLOT OPEN - TOP CONTRIBUTOR</div>
-        <div class="empty-slot">🏆 SLOT OPEN - TOP CONTRIBUTOR</div>
-        <div class="empty-slot">🏆 SLOT OPEN - TOP CONTRIBUTOR</div>
+
+        <div class="contributor-card">
+            <i class="bi bi-trophy-fill gold-text display-6 mb-3"></i>
+            <h5 class="text-white">SLOT #02</h5>
+            <p class="text-muted small">Submit your custom Realm or major bug fix to claim this position.</p>
+        </div>
+        <div class="contributor-card">
+            <i class="bi bi-trophy-fill gold-text display-6 mb-3"></i>
+            <h5 class="text-white">SLOT #03</h5>
+            <p class="text-muted small">Awaiting verified contributor status via Discord.</p>
+        </div>
+        <div class="contributor-card">
+            <i class="bi bi-trophy-fill gold-text display-6 mb-3"></i>
+            <h5 class="text-white">SLOT #04</h5>
+            <p class="text-muted small">Awaiting verified contributor status via Discord.</p>
+        </div>
     </div>
 </section>
 
 <footer class="footer text-center">
     <div class="container">
-        <p class="text-secondary">Built for the Global Developer Community 🇮🇳</p>
-        <p class="text-muted small">&copy; 2026 Syed Ahmed Hasnain | RealmOS Distribution Project</p>
+        <p class="text-secondary small mb-2 text-uppercase fw-bold tracking-widest">A Syed Ahmed Hasnain Project</p>
+        <p class="text-muted small">&copy; 2026 RealmOS Project | Distributed for Global Development</p>
     </div>
 </footer>
 
