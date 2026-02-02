@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealmOS Stats Widget</title>
+    <style>
+        /* Professional "RealmOS Theme" Styles */
+        :root {
+            --realm-dark: #1e1e24;
+            --realm-accent: #ff4b4b; /* The Sweet-Ambar Red/Pink */
+            --realm-text: #ffffff;
+            --realm-gray: #a0a0a0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: var(--realm-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* The Stats Card Container */
+        .stats-card {
+            background-color: var(--realm-dark);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 25px 40px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            max-width: 300px;
+            min-width: 250px;
+            transition: transform 0.2s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--realm-accent);
+        }
+
+        /* The Label Text */
+        .stats-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--realm-gray);
+            margin-bottom: 5px;
+        }
+
+        /* The Big Number */
+        .stats-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--realm-text);
+            margin: 0;
+            line-height: 1;
+        }
+
+        /* The Subtext / Live Indicator */
+        .stats-sub {
+            font-size: 0.8rem;
+            color: var(--realm-accent);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* The "Live" pulsing dot */
+        .live-dot {
+            height: 8px;
+            width: 8px;
+            background-color: var(--realm-accent);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--realm-accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Loading State */
+        .loading {
+            font-size: 1.5rem;
+            color: var(--realm-gray);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stats-card">
+        <div class="stats-label">Total Downloads</div>
+        <div class="stats-number" id="download-count">
+            <span class="loading">...</span>
+        </div>
+        <div class="stats-sub">
+            <span class="live-dot"></span> Live Data
+        </div>
+    </div>
+    <script>
+        async function fetchRealmStats() {
+            // 1. CONFIGURATION
+            const projectName = "realm-os"; // Matches your SourceForge URL
+            const startDate = "2024-01-01"; // Start of the year (safest bet)
+            
+            // 2. GET DYNAMIC END DATE (Today)
+            const today = new Date().toISOString().split('T')[0];
+            
+            // 3. API URL
+            const apiUrl = `https://sourceforge.net/projects/${projectName}/files/stats/json?start_date=${startDate}&end_date=${today}`;
+
+            console.log("Fetching stats from:", apiUrl);
+
+            try {
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // 4. UPDATE THE UI
+                const countElement = document.getElementById("download-count");
+                
+                if (data.total) {
+                    // Format number with commas (e.g., 1,234 instead of 1234)
+                    countElement.innerText = data.total.toLocaleString();
+                } else {
+                    countElement.innerText = "N/A";
+                }
+
+            } catch (error) {
+                console.error("RealmOS Stats Error:", error);
+                document.getElementById("download-count").innerText = "Err";
+            }
+        }
+
+        // Run immediately
+        fetchRealmStats();
+    </script>
+
+</body>
+</html>
