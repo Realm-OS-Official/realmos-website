@@ -128,6 +128,21 @@
     </div>
 
     <script>
+        // --- AUTH CHECKER (The Bouncer) ---
+async function checkUser() {
+    const { data: { user } } = await _supabase.auth.getUser();
+    
+    if (!user) {
+        // If not logged in, kick them back to login page
+        window.location.href = "login.html";
+    } else {
+        // If logged in, welcome them!
+        console.log("Logged in as:", user.email);
+        // We will use their email as their username for now
+        currentUserEmail = user.email.split('@')[0]; // simple username
+    }
+}
+checkUser();
         // --- YOUR CREDENTIALS ---
         const SUPABASE_URL = 'https://vmrqbonwwnpjibynevpr.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR'; // Using the key you provided
