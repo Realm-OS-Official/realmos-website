@@ -3,112 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RealmChat | Pro</title>
+    <title>RealmChat | Universe</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- COPY YOUR PREVIOUS CSS HERE (Server Bar, Sidebar, etc) --- */
-        /* I will include the new specific styles for the features below */
-        
+        /* --- STYLES --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { display: flex; height: 100vh; background-color: #36393f; color: white; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
         
-        /* Layout Styles (Same as before) */
+        /* Layout */
         .server-bar { width: 72px; background-color: #202225; display: flex; flex-direction: column; align-items: center; padding-top: 12px; flex-shrink: 0; }
         .server-icon { width: 48px; height: 48px; background-color: #36393f; border-radius: 50%; margin-bottom: 10px; cursor: pointer; background-size: cover; position: relative; transition: 0.2s; }
         .server-icon:hover { border-radius: 15px; background-color: #5865F2; }
+        
         .sidebar { width: 240px; background-color: #2f3136; display: flex; flex-direction: column; flex-shrink: 0; }
-        .server-header { height: 48px; padding: 12px 16px; font-weight: bold; box-shadow: 0 1px 0 rgba(4,4,5,0.2); display: flex; align-items: center; }
+        .server-header { height: 48px; padding: 12px 16px; font-weight: bold; box-shadow: 0 1px 0 rgba(4,4,5,0.2); display: flex; align-items: center; justify-content: space-between; }
         .channel-list { padding: 10px; flex: 1; overflow-y: auto; }
         .channel { padding: 6px 8px; margin-bottom: 2px; border-radius: 4px; color: #8e9297; cursor: pointer; display: flex; align-items: center; }
         .channel:hover { background-color: #34373c; color: #dcddde; }
         .channel.active { background-color: #393c43; color: white; }
-        .chat-area { flex: 1; background-color: #36393f; display: flex; flex-direction: column; min-width: 0; }
-        .chat-header { height: 48px; padding: 0 16px; display: flex; align-items: center; box-shadow: 0 1px 0 rgba(4,4,5,0.2); font-weight: bold; }
         
-        /* --- NEW FEATURE STYLES --- */
+        .chat-area { flex: 1; background-color: #36393f; display: flex; flex-direction: column; min-width: 0; }
+        .chat-header { height: 48px; padding: 0 16px; display: flex; align-items: center; box-shadow: 0 1px 0 rgba(4,4,5,0.2); font-weight: bold; justify-content: space-between;}
         
         .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .message { display: flex; gap: 16px; padding: 5px 0; position: relative; }
+        .message:hover { background-color: #32353b; }
         
-        /* Message Group */
-        .message { 
-            display: flex; gap: 16px; padding: 5px 0; position: relative; 
-        }
-        .message:hover { background-color: #32353b; } /* Highlight on hover */
-        
-        /* Action Buttons (Delete, Reply) - Hidden until hover */
-        .message-actions {
-            position: absolute; right: 10px; top: -10px;
-            background-color: #36393f; border: 1px solid #202225;
-            border-radius: 4px; padding: 2px;
-            display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+        .message-actions { position: absolute; right: 10px; top: -10px; background-color: #36393f; border: 1px solid #202225; border-radius: 4px; padding: 2px; display: none; }
         .message:hover .message-actions { display: flex; }
-        
-        .action-btn {
-            padding: 5px 8px; cursor: pointer; color: #b9bbbe; transition: 0.2s;
-        }
+        .action-btn { padding: 5px 8px; cursor: pointer; color: #b9bbbe; }
         .action-btn:hover { color: white; background-color: #40444b; }
         .action-btn.delete:hover { color: #ed4245; }
 
         .avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #5865F2; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         .message-content h4 { font-size: 16px; margin-bottom: 4px; color: white; font-weight: 500; }
-        .timestamp { font-size: 12px; color: #72767d; font-weight: normal; margin-left: 5px; }
-        .text { color: #dcddde; font-weight: 300; line-height: 1.4; white-space: pre-wrap; }
         
-        /* Reply Styles */
-        .reply-preview {
-            font-size: 12px; color: #b9bbbe; display: flex; align-items: center; gap: 5px; margin-bottom: 4px;
-        }
-        .reply-line { width: 30px; height: 2px; background-color: #4f545c; border-top-left-radius: 4px; }
+        /* Badges */
+        .badge { font-size: 10px; padding: 2px 4px; border-radius: 3px; vertical-align: middle; margin-left: 5px; }
+        .badge-admin { background-color: #ed4245; color: white; }
+        .badge-mod { background-color: #faa61a; color: black; }
+        .badge-bot { background-color: #5865F2; color: white; }
 
         .input-area { padding: 0 16px 24px; background-color: #36393f; margin-top: auto; }
         .input-box { background-color: #40444b; border-radius: 8px; padding: 11px 16px; color: white; display: flex; align-items: center; }
         input { background: transparent; border: none; color: white; width: 100%; outline: none; }
 
-        /* Settings Modal */
-        #settings-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 100;
-            display: none; justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background-color: #36393f; padding: 30px; border-radius: 8px; width: 400px; text-align: center;
-        }
-        .btn-save { background-color: #3ba55c; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; }
+        /* Stats in Sidebar */
+        .stats-box { font-size: 12px; color: #b9bbbe; padding: 10px; border-top: 1px solid #202225; }
     </style>
 </head>
 <body>
-
-    <div id="settings-modal">
-        <div class="modal-content">
-            <h2>User Profile</h2>
-            <p style="color: #b9bbbe; margin: 10px 0;">Customize how you appear to others.</p>
-            <input type="text" id="new-username" placeholder="Enter new display name" style="width: 100%; padding: 10px; background: #202225; border: none; color: white;">
-            <button class="btn-save" onclick="saveProfile()">Save Changes</button>
-            <button onclick="closeSettings()" style="background: transparent; border: none; color: #ed4245; margin-top: 10px; cursor: pointer;">Cancel</button>
-        </div>
-    </div>
 
     <div class="server-bar">
         <a href="index.html" class="server-icon" style="background-image: url('https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png');"></a>
     </div>
 
     <div class="sidebar">
-        <div class="server-header">RealmOS Official 🛡️</div>
+        <div class="server-header">RealmOS <span id="admin-indicator" style="display:none; color: #ed4245; font-size: 10px;">ADMIN MODE</span></div>
         <div class="channel-list">
             <div class="channel active"><span style="margin-right:5px">#</span> general</div>
             <div class="channel"><span style="margin-right:5px">#</span> development</div>
-            <div class="channel"><span style="margin-right:5px">#</span> off-topic</div>
+            <div class="channel"><span style="margin-right:5px">#</span> realm-submissions</div>
         </div>
-        <div style="background-color: #292b2f; padding: 8px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
-                <div><div style="font-size: 13px; font-weight: bold;" id="my-username">Loading...</div></div>
-            </div>
-            <div style="color: #b9bbbe; cursor: pointer;" onclick="openSettings()">⚙️</div>
+        
+        <div class="stats-box">
+            <div id="member-count">🟢 Loading Members...</div>
+        </div>
+
+        <div style="background-color: #292b2f; padding: 8px; display: flex; align-items: center; gap: 8px;">
+            <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+            <div><div style="font-size: 13px; font-weight: bold;" id="my-username">Loading...</div></div>
         </div>
     </div>
 
@@ -119,9 +86,6 @@
         </div>
         <div class="messages" id="message-container"></div>
         <div class="input-area">
-            <div id="reply-bar" style="display: none; color: #b9bbbe; padding: 5px; font-size: 12px;">
-                Replying to <b id="reply-user">User</b> <span onclick="cancelReply()" style="cursor: pointer; color: #ed4245; margin-left: 10px;">(Cancel)</span>
-            </div>
             <div class="input-box">
                 <input type="text" id="chat-input" placeholder="Message #general" autocomplete="off">
             </div>
@@ -129,59 +93,72 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURATION ---
+        // --- CONFIGURATION ---
         const SUPABASE_URL = 'https://vmrqbonwwnpjibynevpr.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR'; // YOUR KEY
+        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Global Variables
+        // State
         let currentUser = null;
+        let userProfile = null;
         let currentChannel = 'general';
-        let replyingTo = null; // Stores the message ID we are replying to
+        const ADMIN_EMAIL = 'realmos.official@outlook.com';
 
-        // DOM Elements
+        // DOM
         const container = document.getElementById('message-container');
         const input = document.getElementById('chat-input');
-        const replyBar = document.getElementById('reply-bar');
-
-        // --- 2. AUTH & PROFILE ---
+        
+        // --- 1. AUTH & PROFILES ---
         async function checkUser() {
             const { data: { user } } = await _supabase.auth.getUser();
             if (!user) { window.location.href = "login.html"; return; }
-            
             currentUser = user;
+
+            // 1. Get or Create Profile
+            let { data: profile, error } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             
-            // Get Display Name from Metadata (or default to email)
-            const displayName = user.user_metadata.display_name || user.email.split('@')[0];
-            document.getElementById('my-username').innerText = displayName;
+            if (!profile) {
+                // First time user? Create profile
+                const username = user.user_metadata.display_name || user.email.split('@')[0];
+                const { data: newProfile } = await _supabase.from('profiles').insert([{
+                    id: user.id,
+                    email: user.email,
+                    username: username,
+                    role: (user.email === ADMIN_EMAIL) ? 'admin' : 'member'
+                }]).select().single();
+                userProfile = newProfile;
+            } else {
+                userProfile = profile;
+            }
+
+            // 2. Check Ban Status
+            if (userProfile && userProfile.is_banned) {
+                document.body.innerHTML = `<h1 style="color:red; text-align:center; margin-top:50px;">🚫 YOU HAVE BEEN BANNED FROM THE REALM.</h1>`;
+                return;
+            }
+
+            // 3. UI Updates
+            document.getElementById('my-username').innerText = userProfile.username;
+            if (user.email === ADMIN_EMAIL) {
+                document.getElementById('admin-indicator').style.display = 'inline';
+            }
+
+            // 4. Update Member Count
+            updateMemberCount();
             
+            // 5. Load Chat
             fetchMessages(currentChannel);
         }
         checkUser();
 
-        // Save New Name
-        async function saveProfile() {
-            const newName = document.getElementById('new-username').value;
-            if(!newName) return;
-
-            // Update Supabase Auth Metadata
-            const { error } = await _supabase.auth.updateUser({
-                data: { display_name: newName }
-            });
-
-            if(!error) {
-                document.getElementById('my-username').innerText = newName;
-                closeSettings();
-                alert("Name updated! (Old messages won't change, only new ones)");
-            }
+        async function updateMemberCount() {
+            const { count } = await _supabase.from('profiles').select('*', { count: 'exact', head: true });
+            document.getElementById('member-count').innerText = `🟢 ${count || 1} Members Registered`;
         }
 
-        // --- 3. FETCH MESSAGES ---
+        // --- 2. FETCH MESSAGES ---
         async function fetchMessages(channelName) {
             container.innerHTML = `<div style="padding: 20px;">Loading...</div>`;
-            
-            // Subscribe to Realtime Deletes/Inserts (Advanced Phase)
-            // For now, standard fetch
             let { data: messages, error } = await _supabase
                 .from('messages')
                 .select('*')
@@ -189,42 +166,38 @@
                 .order('created_at', { ascending: true });
 
             container.innerHTML = "";
-            if(messages) {
-                messages.forEach(msg => renderMessage(msg));
-            }
+            if(messages) messages.forEach(renderMessage);
         }
 
-        // --- 4. RENDER MESSAGE (With Delete & Reply) ---
+        // --- 3. RENDER MESSAGE ---
         function renderMessage(msg) {
             const msgDiv = document.createElement('div');
             msgDiv.className = 'message';
-            msgDiv.id = `msg-${msg.id}`; // Give div an ID to find it later
+            msgDiv.id = `msg-${msg.id}`;
 
             const time = new Date(msg.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            // DELETE BUTTON LOGIC: Only show if I own the message
-            let deleteBtn = '';
-            // Note: We check if msg.user_id matches my ID
-            if (currentUser && msg.user_id === currentUser.id) {
-                deleteBtn = `<div class="action-btn delete" onclick="deleteMessage('${msg.id}')" title="Delete">🗑️</div>`;
+            // Badges
+            let badgeHtml = '';
+            // Just a visual check for now based on known admin email
+            if (msg.username.toLowerCase().includes('realmos') || msg.username.toLowerCase().includes('admin')) {
+                badgeHtml = `<span class="badge badge-admin">ADMIN</span>`;
             }
 
-            // REPLY HTML (If this message IS a reply)
-            let replyHtml = '';
-            if(msg.reply_to) {
-                replyHtml = `<div class="reply-preview"><i class="fas fa-reply"></i> Replying to a message</div>`;
+            // Delete Button (Check User ID)
+            let deleteBtn = '';
+            // Allow deletion if: I own the message OR I am the Admin
+            if ((currentUser && msg.user_id === currentUser.id) || (currentUser.email === ADMIN_EMAIL)) {
+                deleteBtn = `<div class="action-btn delete" onclick="deleteMessage('${msg.id}')" title="Delete">🗑️</div>`;
             }
 
             msgDiv.innerHTML = `
                 <div class="avatar">${msg.username[0].toUpperCase()}</div>
                 <div class="message-content">
-                    ${replyHtml}
-                    <h4>${msg.username} <span class="timestamp">${time}</span></h4>
+                    <h4>${msg.username} ${badgeHtml} <span class="timestamp">${time}</span></h4>
                     <p class="text">${msg.content}</p>
                 </div>
-                
                 <div class="message-actions">
-                    <div class="action-btn" onclick="startReply('${msg.username}', '${msg.content}')" title="Reply">↩️</div>
                     ${deleteBtn}
                 </div>
             `;
@@ -232,59 +205,82 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // --- 5. SEND MESSAGE ---
+        // --- 4. SEND & COMMANDS ---
         input.addEventListener('keydown', async function (e) {
             if (e.key === 'Enter' && input.value.trim() !== "") {
                 const text = input.value;
                 input.value = "";
-                
-                // Get current display name
-                const displayName = document.getElementById('my-username').innerText;
 
-                // Send to DB
+                // --- COMMAND PARSING (Admin Only) ---
+                if (text.startsWith('/') && currentUser.email === ADMIN_EMAIL) {
+                    handleCommand(text);
+                    return;
+                }
+
+                // Normal Message
                 await _supabase.from('messages').insert([{ 
-                    username: displayName, 
+                    username: userProfile.username, 
                     content: text, 
                     channel: currentChannel,
-                    user_id: currentUser.id, // SAVE USER ID FOR DELETION
-                    reply_to: replyingTo // SAVE REPLY INFO
+                    user_id: currentUser.id
                 }]);
-
-                cancelReply(); // Reset reply mode
-                fetchMessages(currentChannel); // Refresh to see new msg
+                fetchMessages(currentChannel);
             }
         });
 
-        // --- 6. DELETE LOGIC ---
+        // --- 5. ADMIN COMMAND LOGIC ---
+        async function handleCommand(cmd) {
+            const parts = cmd.split(' ');
+            const action = parts[0];
+            const targetName = parts[1]; // Username to target
+            
+            // Helper to show system message locally
+            const log = (msg) => {
+                container.innerHTML += `<div style="padding:10px; color:#faa61a;"><i>🤖 SYSTEM: ${msg}</i></div>`;
+                container.scrollTop = container.scrollHeight;
+            };
+
+            if (action === '/ban') {
+                if (!targetName) return log("Usage: /ban [username]");
+                // Find profile by username
+                const { data: target } = await _supabase.from('profiles').select('*').eq('username', targetName).single();
+                if (target) {
+                    await _supabase.from('profiles').update({ is_banned: true }).eq('id', target.id);
+                    log(`🔨 Banned user: ${targetName}`);
+                } else {
+                    log(`User ${targetName} not found.`);
+                }
+            } 
+            else if (action === '/unban') {
+                const { data: target } = await _supabase.from('profiles').select('*').eq('username', targetName).single();
+                if (target) {
+                    await _supabase.from('profiles').update({ is_banned: false }).eq('id', target.id);
+                    log(`😇 Unbanned user: ${targetName}`);
+                }
+            }
+            else if (action === '/purge') {
+                container.innerHTML = '';
+                log("Chat cleared locally.");
+            }
+            else {
+                log("Unknown command. Try /ban [user] or /unban [user]");
+            }
+        }
+
+        // --- 6. DELETE ---
         async function deleteMessage(id) {
-            if(confirm("Delete this message?")) {
+            if(confirm("Delete message?")) {
                 const { error } = await _supabase.from('messages').delete().eq('id', id);
-                if(!error) {
-                    // Remove from screen immediately
-                    const div = document.getElementById(`msg-${id}`);
-                    if(div) div.remove();
+                if (!error) {
+                    const el = document.getElementById(`msg-${id}`);
+                    if(el) el.remove();
+                } else {
+                    alert("Error: Database permission denied. Did you run the SQL?");
                 }
             }
         }
 
-        // --- 7. REPLY LOGIC ---
-        function startReply(user, text) {
-            replyingTo = text; // Ideally store ID, but storing text is simpler for display
-            replyBar.style.display = 'block';
-            document.getElementById('reply-user').innerText = user;
-            input.focus();
-        }
-
-        function cancelReply() {
-            replyingTo = null;
-            replyBar.style.display = 'none';
-        }
-
-        // --- 8. SETTINGS UI ---
-        function openSettings() { document.getElementById('settings-modal').style.display = 'flex'; }
-        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
-        
-        // Channel Switching
+        // Channel Switch
         document.querySelectorAll('.channel').forEach(el => {
             el.addEventListener('click', function() {
                 document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
