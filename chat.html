@@ -6,7 +6,6 @@
     <title>RealmChat | Community</title>
 
     <link rel="stylesheet" href="style.css">
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -118,8 +117,7 @@
             <span class="hashtag" style="font-size: 24px; margin-right: 10px; color: #72767d;">#</span>
             <span id="current-channel-name" style="color: white; margin-right: 10px;">general</span>
         </div>
-        <div class="messages" id="message-container">
-            </div>
+        <div class="messages" id="message-container"></div>
         <div class="input-area">
             <div class="input-box">
                 <input type="text" id="chat-input" placeholder="Message #general" autocomplete="off">
@@ -128,64 +126,70 @@
     </div>
 
     <script>
-        // --- AUTH CHECKER (The Bouncer) ---
-async function checkUser() {
-    const { data: { user } } = await _supabase.auth.getUser();
-    
-    if (!user) {
-        // If not logged in, kick them back to login page
-        window.location.href = "login.html";
-    } else {
-        // If logged in, welcome them!
-        console.log("Logged in as:", user.email);
-        // We will use their email as their username for now
-        currentUserEmail = user.email.split('@')[0]; // simple username
-    }
-}
-checkUser();
-        // --- YOUR CREDENTIALS ---
+        // --- 1. INITIALIZE CLIENT (Must be first!) ---
         const SUPABASE_URL = 'https://vmrqbonwwnpjibynevpr.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR'; // Using the key you provided
-
-        // Initialize Client
+        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // --- 2. GLOBAL VARIABLES ---
         const input = document.getElementById('chat-input');
         const container = document.getElementById('message-container');
         const headerName = document.getElementById('current-channel-name');
         const allChannels = document.querySelectorAll('.channel');
-
+        
         let currentChannel = 'general';
+        let currentUserEmail = 'Guest'; // Default name
 
-        // 1. FETCH MESSAGES
+        // --- 3. AUTH CHECKER (The Bouncer) ---
+        async function checkUser() {
+            // Now this works because _supabase is defined above
+            const { data: { user } } = await _supabase.auth.getUser();
+            
+            if (!user) {
+                // If not logged in, kick them to login.html
+                console.log("No user found, redirecting...");
+                window.location.href = "login.html";
+            } else {
+                console.log("Logged in as:", user.email);
+                // Set the global username variable
+                currentUserEmail = user.email.split('@')[0]; 
+            }
+        }
+        
+        // Run the check immediately
+        checkUser();
+
+        // --- 4. FETCH MESSAGES ---
         async function fetchMessages(channelName) {
             container.innerHTML = `<div style="padding: 20px; color: #72767d;">Loading #${channelName}...</div>`;
 
-            // Get messages for THIS channel
             let { data: messages, error } = await _supabase
                 .from('messages')
                 .select('*')
                 .eq('channel', channelName)
                 .order('created_at', { ascending: true });
 
-            container.innerHTML = ""; // Clear loader
+            container.innerHTML = ""; 
 
             if (error) {
                 console.error("Error:", error);
-                container.innerHTML = `<div style="padding: 20px; color: #ff5555;">Error: Could not load chat. Check console.</div>`;
+                container.innerHTML = `<div style="padding: 20px; color: #ff5555;">Error loading chat.</div>`;
             } else if (messages) {
                 messages.forEach(msg => renderMessage(msg.username, msg.content, msg.created_at));
             }
         }
 
-        // 2. SHOW MESSAGE ON SCREEN
+        // --- 5. RENDER MESSAGE ---
         function renderMessage(user, text, time) {
             const msgDiv = document.createElement('div');
             msgDiv.className = 'message';
             const displayTime = new Date(time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Safe first letter
+            const firstLetter = user ? user[0].toUpperCase() : '?';
 
             msgDiv.innerHTML = `
-                <div class="avatar" style="background-color: #faa61a;">${user[0].toUpperCase()}</div>
+                <div class="avatar" style="background-color: #faa61a;">${firstLetter}</div>
                 <div class="message-content">
                     <h4>${user} <span class="timestamp">${displayTime}</span></h4>
                     <p class="text">${text}</p>
@@ -195,30 +199,28 @@ checkUser();
             container.scrollTop = container.scrollHeight;
         }
 
-        // 3. SEND MESSAGE
+        // --- 6. SEND MESSAGE ---
         input.addEventListener('keydown', async function (e) {
             if (e.key === 'Enter' && input.value.trim() !== "") {
                 const text = input.value;
-                input.value = "";
+                input.value = ""; 
 
-                // Send to Database
                 const { error } = await _supabase
                     .from('messages')
-                    .insert([{
-                        username: 'Hasnain', // Default name for now
-                        content: text,
-                        channel: currentChannel
+                    .insert([{ 
+                        username: currentUserEmail, // USES REAL NAME NOW
+                        content: text, 
+                        channel: currentChannel 
                     }]);
 
                 if (error) console.log("Error sending:", error);
                 else {
-                    // Manually show it immediately so it feels fast
-                    renderMessage('Hasnain', text, new Date());
+                    renderMessage(currentUserEmail, text, new Date());
                 }
             }
         });
 
-        // 4. SWITCH CHANNELS
+        // --- 7. CHANNEL SWITCHING ---
         allChannels.forEach(channel => {
             channel.addEventListener('click', function() {
                 if(this.classList.contains('channel-category')) return;
