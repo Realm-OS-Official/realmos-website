@@ -45,24 +45,42 @@
         .badge { font-size: 10px; padding: 2px 4px; border-radius: 3px; vertical-align: middle; margin-left: 5px; }
         .badge-admin { background-color: #ed4245; color: white; }
         .badge-mod { background-color: #faa61a; color: black; }
-        .badge-bot { background-color: #5865F2; color: white; }
 
         .input-area { padding: 0 16px 24px; background-color: #36393f; margin-top: auto; }
         .input-box { background-color: #40444b; border-radius: 8px; padding: 11px 16px; color: white; display: flex; align-items: center; }
         input { background: transparent; border: none; color: white; width: 100%; outline: none; }
 
-        /* Stats in Sidebar */
+        /* Stats & Modal */
         .stats-box { font-size: 12px; color: #b9bbbe; padding: 10px; border-top: 1px solid #202225; }
+        
+        #settings-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 100;
+            display: none; justify-content: center; align-items: center;
+        }
+        .modal-content { background-color: #36393f; padding: 30px; border-radius: 8px; width: 400px; text-align: center; }
+        .btn-save { background-color: #3ba55c; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; }
+
     </style>
 </head>
 <body>
+
+    <div id="settings-modal">
+        <div class="modal-content">
+            <h2>User Profile</h2>
+            <p style="color: #b9bbbe; margin: 10px 0;">Customize how you appear to others.</p>
+            <input type="text" id="new-username" placeholder="Enter new display name" style="width: 100%; padding: 10px; background: #202225; border: none; color: white;">
+            <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+            <button onclick="closeSettings()" style="background: transparent; border: none; color: #ed4245; margin-top: 10px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
 
     <div class="server-bar">
         <a href="index.html" class="server-icon" style="background-image: url('https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png');"></a>
     </div>
 
     <div class="sidebar">
-        <div class="server-header">RealmOS <span id="admin-indicator" style="display:none; color: #ed4245; font-size: 10px;">ADMIN MODE</span></div>
+        <div class="server-header">RealmOS <span id="admin-indicator" style="display:none; color: #ed4245; font-size: 10px; margin-left: 5px;">ADMIN MODE</span></div>
         <div class="channel-list">
             <div class="channel active"><span style="margin-right:5px">#</span> general</div>
             <div class="channel"><span style="margin-right:5px">#</span> development</div>
@@ -73,9 +91,12 @@
             <div id="member-count">🟢 Loading Members...</div>
         </div>
 
-        <div style="background-color: #292b2f; padding: 8px; display: flex; align-items: center; gap: 8px;">
-            <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
-            <div><div style="font-size: 13px; font-weight: bold;" id="my-username">Loading...</div></div>
+        <div style="background-color: #292b2f; padding: 8px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+                <div><div style="font-size: 13px; font-weight: bold;" id="my-username">Loading...</div></div>
+            </div>
+            <div style="color: #b9bbbe; cursor: pointer;" onclick="openSettings()">⚙️</div>
         </div>
     </div>
 
@@ -115,7 +136,7 @@
             currentUser = user;
 
             // 1. Get or Create Profile
-            let { data: profile, error } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
+            let { data: profile } = await _supabase.from('profiles').select('*').eq('id', user.id).single();
             
             if (!profile) {
                 // First time user? Create profile
@@ -156,7 +177,27 @@
             document.getElementById('member-count').innerText = `🟢 ${count || 1} Members Registered`;
         }
 
-        // --- 2. FETCH MESSAGES ---
+        // --- 2. SETTINGS LOGIC ---
+        function openSettings() { document.getElementById('settings-modal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
+        
+        async function saveProfile() {
+            const newName = document.getElementById('new-username').value;
+            if(!newName) return;
+
+            // Update Auth Meta (Standard)
+            await _supabase.auth.updateUser({ data: { display_name: newName } });
+            
+            // Update Profile Table (For Bans/Roles)
+            await _supabase.from('profiles').update({ username: newName }).eq('id', currentUser.id);
+
+            document.getElementById('my-username').innerText = newName;
+            userProfile.username = newName; // Update local state
+            closeSettings();
+            alert("Name updated!");
+        }
+
+        // --- 3. FETCH MESSAGES ---
         async function fetchMessages(channelName) {
             container.innerHTML = `<div style="padding: 20px;">Loading...</div>`;
             let { data: messages, error } = await _supabase
@@ -169,7 +210,7 @@
             if(messages) messages.forEach(renderMessage);
         }
 
-        // --- 3. RENDER MESSAGE ---
+        // --- 4. RENDER MESSAGE ---
         function renderMessage(msg) {
             const msgDiv = document.createElement('div');
             msgDiv.className = 'message';
@@ -179,7 +220,6 @@
             
             // Badges
             let badgeHtml = '';
-            // Just a visual check for now based on known admin email
             if (msg.username.toLowerCase().includes('realmos') || msg.username.toLowerCase().includes('admin')) {
                 badgeHtml = `<span class="badge badge-admin">ADMIN</span>`;
             }
@@ -205,7 +245,7 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // --- 4. SEND & COMMANDS ---
+        // --- 5. SEND & COMMANDS ---
         input.addEventListener('keydown', async function (e) {
             if (e.key === 'Enter' && input.value.trim() !== "") {
                 const text = input.value;
@@ -228,13 +268,12 @@
             }
         });
 
-        // --- 5. ADMIN COMMAND LOGIC ---
+        // --- 6. ADMIN COMMAND LOGIC ---
         async function handleCommand(cmd) {
             const parts = cmd.split(' ');
             const action = parts[0];
             const targetName = parts[1]; // Username to target
             
-            // Helper to show system message locally
             const log = (msg) => {
                 container.innerHTML += `<div style="padding:10px; color:#faa61a;"><i>🤖 SYSTEM: ${msg}</i></div>`;
                 container.scrollTop = container.scrollHeight;
@@ -242,7 +281,6 @@
 
             if (action === '/ban') {
                 if (!targetName) return log("Usage: /ban [username]");
-                // Find profile by username
                 const { data: target } = await _supabase.from('profiles').select('*').eq('username', targetName).single();
                 if (target) {
                     await _supabase.from('profiles').update({ is_banned: true }).eq('id', target.id);
@@ -263,11 +301,11 @@
                 log("Chat cleared locally.");
             }
             else {
-                log("Unknown command. Try /ban [user] or /unban [user]");
+                log("Unknown command.");
             }
         }
 
-        // --- 6. DELETE ---
+        // --- 7. DELETE ---
         async function deleteMessage(id) {
             if(confirm("Delete message?")) {
                 const { error } = await _supabase.from('messages').delete().eq('id', id);
@@ -275,7 +313,8 @@
                     const el = document.getElementById(`msg-${id}`);
                     if(el) el.remove();
                 } else {
-                    alert("Error: Database permission denied. Did you run the SQL?");
+                    console.error(error);
+                    alert("Error: Database permission denied. (Old messages cannot be deleted)");
                 }
             }
         }
@@ -290,7 +329,6 @@
                 fetchMessages(currentChannel);
             });
         });
-
     </script>
 </body>
 </html>
