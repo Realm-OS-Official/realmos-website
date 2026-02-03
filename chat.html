@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealmChat | Community</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        /* --- REALMCHAT STYLES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            display: flex; height: 100vh; background-color: #36393f; color: white;
+            overflow: hidden; font-family: 'gg sans', 'Segoe UI', sans-serif;
+        }
+
+        /* 1. Server Bar */
+        .server-bar {
+            width: 72px; background-color: #202225; display: flex; flex-direction: column;
+            align-items: center; padding-top: 12px; flex-shrink: 0;
+        }
+        .server-icon {
+            width: 48px; height: 48px; background-color: #36393f; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; margin-bottom: 10px;
+            cursor: pointer; transition: 0.2s; background-size: cover; position: relative;
+        }
+        .server-icon.home { background-image: url('https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png'); background-color: #36393f; }
+        .server-icon:hover { border-radius: 15px; background-color: #5865F2; }
+        .pill {
+            position: absolute; left: -16px; top: 10px; width: 8px; height: 0;
+            background-color: white; border-radius: 0 4px 4px 0; transition: 0.2s;
+        }
+        .server-icon:hover .pill { height: 20px; top: 14px; }
+
+        /* 2. Sidebar */
+        .sidebar { width: 240px; background-color: #2f3136; display: flex; flex-direction: column; flex-shrink: 0; }
+        .server-header {
+            height: 48px; padding: 12px 16px; font-weight: bold; box-shadow: 0 1px 0 rgba(4,4,5,0.2);
+            font-size: 16px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .channel-list { padding: 10px; flex: 1; overflow-y: auto; }
+        .channel-category {
+            color: #8e9297; font-size: 12px; font-weight: bold; text-transform: uppercase;
+            margin-top: 16px; margin-bottom: 8px; padding-left: 18px;
+        }
+        .channel {
+            padding: 6px 8px; margin-bottom: 2px; border-radius: 4px; color: #8e9297;
+            cursor: pointer; font-weight: 500; display: flex; align-items: center; font-size: 15px;
+        }
+        .channel:hover { background-color: #34373c; color: #dcddde; }
+        .channel.active { background-color: #393c43; color: white; }
+        .hashtag { margin-right: 6px; font-size: 20px; color: #72767d; }
+
+        /* 3. Chat Area */
+        .chat-area { flex: 1; background-color: #36393f; display: flex; flex-direction: column; min-width: 0; }
+        .chat-header {
+            height: 48px; padding: 0 16px; display: flex; align-items: center;
+            box-shadow: 0 1px 0 rgba(4,4,5,0.2); font-weight: bold;
+        }
+        .messages {
+            flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column;
+            gap: 15px; scrollbar-width: thin; scrollbar-color: #202225 #2f3136;
+        }
+        .message { display: flex; gap: 16px; margin-bottom: 5px; }
+        .avatar {
+            width: 40px; height: 40px; border-radius: 50%; background-color: #5865F2;
+            flex-shrink: 0; background-size: cover; display: flex; align-items: center;
+            justify-content: center; font-weight: bold;
+        }
+        .message-content h4 { font-size: 16px; margin-bottom: 4px; color: white; font-weight: 500; }
+        .timestamp { font-size: 12px; color: #72767d; font-weight: normal; margin-left: 5px; }
+        .text { color: #dcddde; font-weight: 300; line-height: 1.375rem; white-space: pre-wrap; }
+
+        /* Input */
+        .input-area { padding: 0 16px 24px; background-color: #36393f; margin-top: auto; }
+        .input-box {
+            background-color: #40444b; border-radius: 8px; padding: 11px 16px;
+            color: white; display: flex; align-items: center;
+        }
+        input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="server-bar">
+        <a href="index.html" class="server-icon home" title="Back to Website"><div class="pill"></div></a>
+        <hr style="width: 32px; border: 2px solid #36393f; margin: 8px 0; border-radius: 1px;">
+        <div class="server-icon" style="background-image: url('https://i.ibb.co/q6mbzfy/fdora-realm-os-boot-logo.png'); border-radius: 15px;">
+            <div class="pill" style="height: 40px;"></div>
+        </div>
+        <div class="server-icon" style="background-color: #36393f; color: #3ba55c; font-size: 24px;">+</div>
+    </div>
+
+    <div class="sidebar">
+        <div class="server-header">RealmOS Official 🛡️</div>
+        <div class="channel-list">
+            <div class="channel-category">Community</div>
+            <div class="channel active"><span class="hashtag">#</span> general</div>
+            <div class="channel"><span class="hashtag">#</span> development</div>
+            <div class="channel"><span class="hashtag">#</span> ideas</div>
+            <div class="channel"><span class="hashtag">#</span> realm-submissions</div>
+            <div class="channel"><span class="hashtag">#</span> off-topic</div>
+        </div>
+        <div style="background-color: #292b2f; height: 52px; padding: 8px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="avatar" style="width: 32px; height: 32px; font-size: 12px; background-color: #faa61a;">H</div>
+                <div><div style="font-size: 13px; font-weight: bold;">Hasnain</div><div style="font-size: 11px; color: #b9bbbe;">#0001</div></div>
+            </div>
+            <div style="color: #b9bbbe;">🎙️ 🎧 ⚙️</div>
+        </div>
+    </div>
+
+    <div class="chat-area">
+        <div class="chat-header">
+            <span class="hashtag" style="font-size: 24px; margin-right: 10px; color: #72767d;">#</span>
+            <span id="current-channel-name" style="color: white; margin-right: 10px;">general</span>
+        </div>
+        <div class="messages" id="message-container">
+            </div>
+        <div class="input-area">
+            <div class="input-box">
+                <input type="text" id="chat-input" placeholder="Message #general" autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- YOUR CREDENTIALS ---
+        const SUPABASE_URL = 'https://vmrqbonwwnpjibynevpr.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR'; // Using the key you provided
+
+        // Initialize Client
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const input = document.getElementById('chat-input');
+        const container = document.getElementById('message-container');
+        const headerName = document.getElementById('current-channel-name');
+        const allChannels = document.querySelectorAll('.channel');
+
+        let currentChannel = 'general';
+
+        // 1. FETCH MESSAGES
+        async function fetchMessages(channelName) {
+            container.innerHTML = `<div style="padding: 20px; color: #72767d;">Loading #${channelName}...</div>`;
+
+            // Get messages for THIS channel
+            let { data: messages, error } = await _supabase
+                .from('messages')
+                .select('*')
+                .eq('channel', channelName)
+                .order('created_at', { ascending: true });
+
+            container.innerHTML = ""; // Clear loader
+
+            if (error) {
+                console.error("Error:", error);
+                container.innerHTML = `<div style="padding: 20px; color: #ff5555;">Error: Could not load chat. Check console.</div>`;
+            } else if (messages) {
+                messages.forEach(msg => renderMessage(msg.username, msg.content, msg.created_at));
+            }
+        }
+
+        // 2. SHOW MESSAGE ON SCREEN
+        function renderMessage(user, text, time) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            const displayTime = new Date(time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            msgDiv.innerHTML = `
+                <div class="avatar" style="background-color: #faa61a;">${user[0].toUpperCase()}</div>
+                <div class="message-content">
+                    <h4>${user} <span class="timestamp">${displayTime}</span></h4>
+                    <p class="text">${text}</p>
+                </div>
+            `;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // 3. SEND MESSAGE
+        input.addEventListener('keydown', async function (e) {
+            if (e.key === 'Enter' && input.value.trim() !== "") {
+                const text = input.value;
+                input.value = "";
+
+                // Send to Database
+                const { error } = await _supabase
+                    .from('messages')
+                    .insert([{
+                        username: 'Hasnain', // Default name for now
+                        content: text,
+                        channel: currentChannel
+                    }]);
+
+                if (error) console.log("Error sending:", error);
+                else {
+                    // Manually show it immediately so it feels fast
+                    renderMessage('Hasnain', text, new Date());
+                }
+            }
+        });
+
+        // 4. SWITCH CHANNELS
+        allChannels.forEach(channel => {
+            channel.addEventListener('click', function() {
+                if(this.classList.contains('channel-category')) return;
+
+                allChannels.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+
+                currentChannel = this.innerText.replace('#', '').replace('🔊', '').trim();
+                headerName.innerText = currentChannel;
+                input.placeholder = "Message #" + currentChannel;
+
+                fetchMessages(currentChannel);
+            });
+        });
+
+        // Start by loading general
+        fetchMessages('general');
+    </script>
+</body>
+</html>
