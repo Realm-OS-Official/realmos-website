@@ -3,122 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RealmChat | Community</title>
-
+    <title>RealmChat | Pro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- REALMCHAT STYLES --- */
+        /* --- COPY YOUR PREVIOUS CSS HERE (Server Bar, Sidebar, etc) --- */
+        /* I will include the new specific styles for the features below */
+        
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            display: flex; height: 100vh; background-color: #36393f; color: white;
-            overflow: hidden; font-family: 'gg sans', 'Segoe UI', sans-serif;
-        }
-
-        /* 1. Server Bar */
-        .server-bar {
-            width: 72px; background-color: #202225; display: flex; flex-direction: column;
-            align-items: center; padding-top: 12px; flex-shrink: 0;
-        }
-        .server-icon {
-            width: 48px; height: 48px; background-color: #36393f; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; margin-bottom: 10px;
-            cursor: pointer; transition: 0.2s; background-size: cover; position: relative;
-        }
-        .server-icon.home { background-image: url('https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png'); background-color: #36393f; }
+        body { display: flex; height: 100vh; background-color: #36393f; color: white; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Layout Styles (Same as before) */
+        .server-bar { width: 72px; background-color: #202225; display: flex; flex-direction: column; align-items: center; padding-top: 12px; flex-shrink: 0; }
+        .server-icon { width: 48px; height: 48px; background-color: #36393f; border-radius: 50%; margin-bottom: 10px; cursor: pointer; background-size: cover; position: relative; transition: 0.2s; }
         .server-icon:hover { border-radius: 15px; background-color: #5865F2; }
-        .pill {
-            position: absolute; left: -16px; top: 10px; width: 8px; height: 0;
-            background-color: white; border-radius: 0 4px 4px 0; transition: 0.2s;
-        }
-        .server-icon:hover .pill { height: 20px; top: 14px; }
-
-        /* 2. Sidebar */
         .sidebar { width: 240px; background-color: #2f3136; display: flex; flex-direction: column; flex-shrink: 0; }
-        .server-header {
-            height: 48px; padding: 12px 16px; font-weight: bold; box-shadow: 0 1px 0 rgba(4,4,5,0.2);
-            font-size: 16px; display: flex; justify-content: space-between; align-items: center;
-        }
+        .server-header { height: 48px; padding: 12px 16px; font-weight: bold; box-shadow: 0 1px 0 rgba(4,4,5,0.2); display: flex; align-items: center; }
         .channel-list { padding: 10px; flex: 1; overflow-y: auto; }
-        .channel-category {
-            color: #8e9297; font-size: 12px; font-weight: bold; text-transform: uppercase;
-            margin-top: 16px; margin-bottom: 8px; padding-left: 18px;
-        }
-        .channel {
-            padding: 6px 8px; margin-bottom: 2px; border-radius: 4px; color: #8e9297;
-            cursor: pointer; font-weight: 500; display: flex; align-items: center; font-size: 15px;
-        }
+        .channel { padding: 6px 8px; margin-bottom: 2px; border-radius: 4px; color: #8e9297; cursor: pointer; display: flex; align-items: center; }
         .channel:hover { background-color: #34373c; color: #dcddde; }
         .channel.active { background-color: #393c43; color: white; }
-        .hashtag { margin-right: 6px; font-size: 20px; color: #72767d; }
-
-        /* 3. Chat Area */
         .chat-area { flex: 1; background-color: #36393f; display: flex; flex-direction: column; min-width: 0; }
-        .chat-header {
-            height: 48px; padding: 0 16px; display: flex; align-items: center;
-            box-shadow: 0 1px 0 rgba(4,4,5,0.2); font-weight: bold;
+        .chat-header { height: 48px; padding: 0 16px; display: flex; align-items: center; box-shadow: 0 1px 0 rgba(4,4,5,0.2); font-weight: bold; }
+        
+        /* --- NEW FEATURE STYLES --- */
+        
+        .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        
+        /* Message Group */
+        .message { 
+            display: flex; gap: 16px; padding: 5px 0; position: relative; 
         }
-        .messages {
-            flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column;
-            gap: 15px; scrollbar-width: thin; scrollbar-color: #202225 #2f3136;
+        .message:hover { background-color: #32353b; } /* Highlight on hover */
+        
+        /* Action Buttons (Delete, Reply) - Hidden until hover */
+        .message-actions {
+            position: absolute; right: 10px; top: -10px;
+            background-color: #36393f; border: 1px solid #202225;
+            border-radius: 4px; padding: 2px;
+            display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .message { display: flex; gap: 16px; margin-bottom: 5px; }
-        .avatar {
-            width: 40px; height: 40px; border-radius: 50%; background-color: #5865F2;
-            flex-shrink: 0; background-size: cover; display: flex; align-items: center;
-            justify-content: center; font-weight: bold;
+        .message:hover .message-actions { display: flex; }
+        
+        .action-btn {
+            padding: 5px 8px; cursor: pointer; color: #b9bbbe; transition: 0.2s;
         }
+        .action-btn:hover { color: white; background-color: #40444b; }
+        .action-btn.delete:hover { color: #ed4245; }
+
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #5865F2; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         .message-content h4 { font-size: 16px; margin-bottom: 4px; color: white; font-weight: 500; }
         .timestamp { font-size: 12px; color: #72767d; font-weight: normal; margin-left: 5px; }
-        .text { color: #dcddde; font-weight: 300; line-height: 1.375rem; white-space: pre-wrap; }
-
-        /* Input */
-        .input-area { padding: 0 16px 24px; background-color: #36393f; margin-top: auto; }
-        .input-box {
-            background-color: #40444b; border-radius: 8px; padding: 11px 16px;
-            color: white; display: flex; align-items: center;
+        .text { color: #dcddde; font-weight: 300; line-height: 1.4; white-space: pre-wrap; }
+        
+        /* Reply Styles */
+        .reply-preview {
+            font-size: 12px; color: #b9bbbe; display: flex; align-items: center; gap: 5px; margin-bottom: 4px;
         }
-        input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 15px; }
+        .reply-line { width: 30px; height: 2px; background-color: #4f545c; border-top-left-radius: 4px; }
+
+        .input-area { padding: 0 16px 24px; background-color: #36393f; margin-top: auto; }
+        .input-box { background-color: #40444b; border-radius: 8px; padding: 11px 16px; color: white; display: flex; align-items: center; }
+        input { background: transparent; border: none; color: white; width: 100%; outline: none; }
+
+        /* Settings Modal */
+        #settings-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 100;
+            display: none; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background-color: #36393f; padding: 30px; border-radius: 8px; width: 400px; text-align: center;
+        }
+        .btn-save { background-color: #3ba55c; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="server-bar">
-        <a href="index.html" class="server-icon home" title="Back to Website"><div class="pill"></div></a>
-        <hr style="width: 32px; border: 2px solid #36393f; margin: 8px 0; border-radius: 1px;">
-        <div class="server-icon" style="background-image: url('https://i.ibb.co/q6mbzfy/fdora-realm-os-boot-logo.png'); border-radius: 15px;">
-            <div class="pill" style="height: 40px;"></div>
+    <div id="settings-modal">
+        <div class="modal-content">
+            <h2>User Profile</h2>
+            <p style="color: #b9bbbe; margin: 10px 0;">Customize how you appear to others.</p>
+            <input type="text" id="new-username" placeholder="Enter new display name" style="width: 100%; padding: 10px; background: #202225; border: none; color: white;">
+            <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+            <button onclick="closeSettings()" style="background: transparent; border: none; color: #ed4245; margin-top: 10px; cursor: pointer;">Cancel</button>
         </div>
-        <div class="server-icon" style="background-color: #36393f; color: #3ba55c; font-size: 24px;">+</div>
+    </div>
+
+    <div class="server-bar">
+        <a href="index.html" class="server-icon" style="background-image: url('https://i.ibb.co/vC1NGG8R/fedora-realmos-start-logo.png');"></a>
     </div>
 
     <div class="sidebar">
         <div class="server-header">RealmOS Official 🛡️</div>
         <div class="channel-list">
-            <div class="channel-category">Community</div>
-            <div class="channel active"><span class="hashtag">#</span> general</div>
-            <div class="channel"><span class="hashtag">#</span> development</div>
-            <div class="channel"><span class="hashtag">#</span> ideas</div>
-            <div class="channel"><span class="hashtag">#</span> realm-submissions</div>
-            <div class="channel"><span class="hashtag">#</span> off-topic</div>
+            <div class="channel active"><span style="margin-right:5px">#</span> general</div>
+            <div class="channel"><span style="margin-right:5px">#</span> development</div>
+            <div class="channel"><span style="margin-right:5px">#</span> off-topic</div>
         </div>
-        <div style="background-color: #292b2f; height: 52px; padding: 8px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="background-color: #292b2f; padding: 8px; display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <div class="avatar" style="width: 32px; height: 32px; font-size: 12px; background-color: #faa61a;">H</div>
-                <div><div style="font-size: 13px; font-weight: bold;">Hasnain</div><div style="font-size: 11px; color: #b9bbbe;">#0001</div></div>
+                <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+                <div><div style="font-size: 13px; font-weight: bold;" id="my-username">Loading...</div></div>
             </div>
-            <div style="color: #b9bbbe;">🎙️ 🎧 ⚙️</div>
+            <div style="color: #b9bbbe; cursor: pointer;" onclick="openSettings()">⚙️</div>
         </div>
     </div>
 
     <div class="chat-area">
         <div class="chat-header">
-            <span class="hashtag" style="font-size: 24px; margin-right: 10px; color: #72767d;">#</span>
-            <span id="current-channel-name" style="color: white; margin-right: 10px;">general</span>
+            <span style="font-size: 24px; margin-right: 10px; color: #72767d;">#</span>
+            <span id="current-channel-name">general</span>
         </div>
         <div class="messages" id="message-container"></div>
         <div class="input-area">
+            <div id="reply-bar" style="display: none; color: #b9bbbe; padding: 5px; font-size: 12px;">
+                Replying to <b id="reply-user">User</b> <span onclick="cancelReply()" style="cursor: pointer; color: #ed4245; margin-left: 10px;">(Cancel)</span>
+            </div>
             <div class="input-box">
                 <input type="text" id="chat-input" placeholder="Message #general" autocomplete="off">
             </div>
@@ -126,118 +129,172 @@
     </div>
 
     <script>
-        // --- 1. INITIALIZE CLIENT (Must be first!) ---
+        // --- 1. CONFIGURATION ---
         const SUPABASE_URL = 'https://vmrqbonwwnpjibynevpr.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR';
+        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR'; // YOUR KEY
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- 2. GLOBAL VARIABLES ---
-        const input = document.getElementById('chat-input');
-        const container = document.getElementById('message-container');
-        const headerName = document.getElementById('current-channel-name');
-        const allChannels = document.querySelectorAll('.channel');
-        
+        // Global Variables
+        let currentUser = null;
         let currentChannel = 'general';
-        let currentUserEmail = 'Guest'; // Default name
+        let replyingTo = null; // Stores the message ID we are replying to
 
-        // --- 3. AUTH CHECKER (The Bouncer) ---
+        // DOM Elements
+        const container = document.getElementById('message-container');
+        const input = document.getElementById('chat-input');
+        const replyBar = document.getElementById('reply-bar');
+
+        // --- 2. AUTH & PROFILE ---
         async function checkUser() {
-            // Now this works because _supabase is defined above
             const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) { window.location.href = "login.html"; return; }
             
-            if (!user) {
-                // If not logged in, kick them to login.html
-                console.log("No user found, redirecting...");
-                window.location.href = "login.html";
-            } else {
-                console.log("Logged in as:", user.email);
-                // Set the global username variable
-                currentUserEmail = user.email.split('@')[0]; 
-            }
+            currentUser = user;
+            
+            // Get Display Name from Metadata (or default to email)
+            const displayName = user.user_metadata.display_name || user.email.split('@')[0];
+            document.getElementById('my-username').innerText = displayName;
+            
+            fetchMessages(currentChannel);
         }
-        
-        // Run the check immediately
         checkUser();
 
-        // --- 4. FETCH MESSAGES ---
-        async function fetchMessages(channelName) {
-            container.innerHTML = `<div style="padding: 20px; color: #72767d;">Loading #${channelName}...</div>`;
+        // Save New Name
+        async function saveProfile() {
+            const newName = document.getElementById('new-username').value;
+            if(!newName) return;
 
+            // Update Supabase Auth Metadata
+            const { error } = await _supabase.auth.updateUser({
+                data: { display_name: newName }
+            });
+
+            if(!error) {
+                document.getElementById('my-username').innerText = newName;
+                closeSettings();
+                alert("Name updated! (Old messages won't change, only new ones)");
+            }
+        }
+
+        // --- 3. FETCH MESSAGES ---
+        async function fetchMessages(channelName) {
+            container.innerHTML = `<div style="padding: 20px;">Loading...</div>`;
+            
+            // Subscribe to Realtime Deletes/Inserts (Advanced Phase)
+            // For now, standard fetch
             let { data: messages, error } = await _supabase
                 .from('messages')
                 .select('*')
                 .eq('channel', channelName)
                 .order('created_at', { ascending: true });
 
-            container.innerHTML = ""; 
-
-            if (error) {
-                console.error("Error:", error);
-                container.innerHTML = `<div style="padding: 20px; color: #ff5555;">Error loading chat.</div>`;
-            } else if (messages) {
-                messages.forEach(msg => renderMessage(msg.username, msg.content, msg.created_at));
+            container.innerHTML = "";
+            if(messages) {
+                messages.forEach(msg => renderMessage(msg));
             }
         }
 
-        // --- 5. RENDER MESSAGE ---
-        function renderMessage(user, text, time) {
+        // --- 4. RENDER MESSAGE (With Delete & Reply) ---
+        function renderMessage(msg) {
             const msgDiv = document.createElement('div');
             msgDiv.className = 'message';
-            const displayTime = new Date(time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            msgDiv.id = `msg-${msg.id}`; // Give div an ID to find it later
+
+            const time = new Date(msg.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            // Safe first letter
-            const firstLetter = user ? user[0].toUpperCase() : '?';
+            // DELETE BUTTON LOGIC: Only show if I own the message
+            let deleteBtn = '';
+            // Note: We check if msg.user_id matches my ID
+            if (currentUser && msg.user_id === currentUser.id) {
+                deleteBtn = `<div class="action-btn delete" onclick="deleteMessage('${msg.id}')" title="Delete">🗑️</div>`;
+            }
+
+            // REPLY HTML (If this message IS a reply)
+            let replyHtml = '';
+            if(msg.reply_to) {
+                replyHtml = `<div class="reply-preview"><i class="fas fa-reply"></i> Replying to a message</div>`;
+            }
 
             msgDiv.innerHTML = `
-                <div class="avatar" style="background-color: #faa61a;">${firstLetter}</div>
+                <div class="avatar">${msg.username[0].toUpperCase()}</div>
                 <div class="message-content">
-                    <h4>${user} <span class="timestamp">${displayTime}</span></h4>
-                    <p class="text">${text}</p>
+                    ${replyHtml}
+                    <h4>${msg.username} <span class="timestamp">${time}</span></h4>
+                    <p class="text">${msg.content}</p>
+                </div>
+                
+                <div class="message-actions">
+                    <div class="action-btn" onclick="startReply('${msg.username}', '${msg.content}')" title="Reply">↩️</div>
+                    ${deleteBtn}
                 </div>
             `;
             container.appendChild(msgDiv);
             container.scrollTop = container.scrollHeight;
         }
 
-        // --- 6. SEND MESSAGE ---
+        // --- 5. SEND MESSAGE ---
         input.addEventListener('keydown', async function (e) {
             if (e.key === 'Enter' && input.value.trim() !== "") {
                 const text = input.value;
-                input.value = ""; 
+                input.value = "";
+                
+                // Get current display name
+                const displayName = document.getElementById('my-username').innerText;
 
-                const { error } = await _supabase
-                    .from('messages')
-                    .insert([{ 
-                        username: currentUserEmail, // USES REAL NAME NOW
-                        content: text, 
-                        channel: currentChannel 
-                    }]);
+                // Send to DB
+                await _supabase.from('messages').insert([{ 
+                    username: displayName, 
+                    content: text, 
+                    channel: currentChannel,
+                    user_id: currentUser.id, // SAVE USER ID FOR DELETION
+                    reply_to: replyingTo // SAVE REPLY INFO
+                }]);
 
-                if (error) console.log("Error sending:", error);
-                else {
-                    renderMessage(currentUserEmail, text, new Date());
-                }
+                cancelReply(); // Reset reply mode
+                fetchMessages(currentChannel); // Refresh to see new msg
             }
         });
 
-        // --- 7. CHANNEL SWITCHING ---
-        allChannels.forEach(channel => {
-            channel.addEventListener('click', function() {
-                if(this.classList.contains('channel-category')) return;
+        // --- 6. DELETE LOGIC ---
+        async function deleteMessage(id) {
+            if(confirm("Delete this message?")) {
+                const { error } = await _supabase.from('messages').delete().eq('id', id);
+                if(!error) {
+                    // Remove from screen immediately
+                    const div = document.getElementById(`msg-${id}`);
+                    if(div) div.remove();
+                }
+            }
+        }
 
-                allChannels.forEach(c => c.classList.remove('active'));
+        // --- 7. REPLY LOGIC ---
+        function startReply(user, text) {
+            replyingTo = text; // Ideally store ID, but storing text is simpler for display
+            replyBar.style.display = 'block';
+            document.getElementById('reply-user').innerText = user;
+            input.focus();
+        }
+
+        function cancelReply() {
+            replyingTo = null;
+            replyBar.style.display = 'none';
+        }
+
+        // --- 8. SETTINGS UI ---
+        function openSettings() { document.getElementById('settings-modal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
+        
+        // Channel Switching
+        document.querySelectorAll('.channel').forEach(el => {
+            el.addEventListener('click', function() {
+                document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
-
-                currentChannel = this.innerText.replace('#', '').replace('🔊', '').trim();
-                headerName.innerText = currentChannel;
-                input.placeholder = "Message #" + currentChannel;
-
+                currentChannel = this.innerText.replace('#','').trim();
+                document.getElementById('current-channel-name').innerText = currentChannel;
                 fetchMessages(currentChannel);
             });
         });
 
-        // Start by loading general
-        fetchMessages('general');
     </script>
 </body>
 </html>
