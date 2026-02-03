@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | RealmChat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            background-color: #2f3136;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background-color: #36393f;
+            padding: 40px;
+            border-radius: 5px;
+            width: 400px;
+            box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h2 { color: white; margin-bottom: 8px; }
+        p { color: #b9bbbe; margin-bottom: 20px; }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #202225;
+            border: 1px solid #202225;
+            color: white;
+            border-radius: 3px;
+            outline: none;
+            transition: .2s;
+        }
+        input:focus { border-color: #5865F2; }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+        button:hover { background-color: #4752C4; }
+        .error { color: #ed4245; font-size: 12px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Welcome Back!</h2>
+        <p>We're so excited to see you again!</p>
+        
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        
+        <button onclick="handleAuth()">Log In / Sign Up</button>
+        <p class="error" id="error-msg">Something went wrong.</p>
+    </div>
+
+    <script>
+        // --- PUT YOUR KEYS HERE ---
+        const SUPABASE_URL = 'https://vmrqbonwwnpjibynevpr.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_BCCcap8OUfF3SwGxOnkVCQ_FFWeWeDR';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function handleAuth() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+
+            // 1. Try to Log In
+            let { data, error } = await _supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                // 2. If login fails, try to Sign Up (Create new account)
+                console.log("Login failed, trying signup...");
+                let { data: signUpData, error: signUpError } = await _supabase.auth.signUp({
+                    email: email,
+                    password: password
+                });
+
+                if (signUpError) {
+                    errorMsg.innerText = "Error: " + signUpError.message;
+                    errorMsg.style.display = 'block';
+                } else {
+                    // Success! Go to chat
+                    window.location.href = "chat.html";
+                }
+            } else {
+                // Login Success! Go to chat
+                window.location.href = "chat.html";
+            }
+        }
+    </script>
+
+</body>
+</html>
