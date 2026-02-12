@@ -51,8 +51,12 @@ Pre-configured for HTML/CSS and System Architecture development.
 
 ---
 
+---
+
+---
+
 ## 📜 History
-**Lead Architect:** Syed Ahmed Hasnain
+**Lead Architect:** Realm  
 **First Release:** February 2026
 
 RealmOS began as a project to outperform standard distributions like Zorin OS Lite and LMDE 7. After extensive virtual machine stress testing, RealmOS demonstrated superior stability and lower resource usage than its competitors.
